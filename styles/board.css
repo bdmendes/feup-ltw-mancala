@@ -3,6 +3,10 @@
 #game-container {
   width: 100%;
   height: 100%;
+  perspective: 1000px;
+  padding: 2em;
+  filter: blur(1px);
+  transition: filter 2s;
 }
 
 #board {
@@ -12,6 +16,7 @@
   height: 30em;
   flex-direction: row;
   justify-content: space-evenly;
+  transform: rotateX(10deg);
 }
 
 #board,
@@ -21,7 +26,9 @@
 }
 
 #board .storage {
+  flex-basis: 7rem;
   padding: 5em 0;
+  margin: 0 1em;
   display: flex;
 }
 
@@ -31,7 +38,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2em;
+  gap: 1em;
 }
 
 #board .hole-row {
@@ -43,9 +50,21 @@
   gap: 1em;
 }
 
-.hole {
-  width: 8rem;
-  height: 100%;
+#board .hole {
+  flex-basis: 7rem;
+  height: 12rem;
   background-color: black;
   opacity: 40%;
+  overflow: hidden;
+}
+
+#board .seed {
+  display: inline-block;
+  position: relative;
+  background-color: green;
+  width: 0.8em;
+  height: 1.6em;
+  border: 5px inset darkolivegreen;
+  border-radius: 50%;
+  transform: rotateZ(20deg);
 }
