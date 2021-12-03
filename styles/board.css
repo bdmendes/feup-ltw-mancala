@@ -1,37 +1,51 @@
 @import url(palette.css);
 
 #game-container {
-  background-color: var(--champagne);
   width: 100%;
   height: 100%;
 }
 
 #board {
+  background-color: var(--dark-brown);
   display: flex;
-  background: url("../img/wood_surface.jpg");
-  background-size: 100% 100%;
-  width: 80%;
-  height: 40%;
+  width: 60em;
+  height: 30em;
   flex-direction: row;
+  justify-content: space-evenly;
 }
 
-#board .seed-storage {
-  width: 100%;
+#board,
+.hole {
+  border-radius: 2em;
+  border: 0.3em solid darkslategrey;
+}
+
+#board .storage {
+  padding: 5em 0;
+  display: flex;
+}
+
+#board .hole-area {
+  max-width: 40em;
+  padding: 2em 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+}
+
+#board .hole-row {
   height: 100%;
-  background-color: red;
-}
-
-#board .seed-hole-area {
-}
-
-#board .seed-hole-row {
+  width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
+  gap: 1em;
 }
 
-#board .seed-hole-row .seed-hole {
-  margin: 1em;
-  width: 100px;
-  height: 100px;
-  background-color: white;
+.hole {
+  width: 8rem;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
 }
