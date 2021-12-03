@@ -3,10 +3,9 @@
 #game-container {
   width: 100%;
   height: 100%;
-  perspective: 1000px;
-  padding: 2em;
-  filter: blur(1px);
-  transition: filter 2s;
+  perspective: 500px;
+  padding: 3em;
+  /*  filter: blur(1px); */
 }
 
 #board {
@@ -17,6 +16,7 @@
   flex-direction: row;
   justify-content: space-evenly;
   transform: rotateX(10deg);
+  transition: transform 2s;
 }
 
 #board,
