@@ -4,6 +4,21 @@ html {
   margin: 0;
 }
 
+nav{
+  display: flex;
+  height: 70px;
+  justify-content: center;
+  align-items:flex-start;
+}
+nav * {
+  flex: 0 0 150px;
+  text-align: center;
+  border: 1px;
+  padding: 15px 0 15px 0;
+  margin: 6%;
+  margin-top: 10px;
+}
+
 .center {
   display: flex;
   align-items: center;

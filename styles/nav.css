@@ -1,0 +1,6 @@
+@import url(palette.css);
+
+nav * {
+    border-color: black;
+    border-style: solid;
+}
