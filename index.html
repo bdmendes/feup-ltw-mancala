@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Mancala</title>
     <link rel="icon" type="image/gif" href="URL"/>
     <meta charset="UTF-8">
@@ -9,6 +8,7 @@
     <link href="styles/layout.css" rel="stylesheet">
     <link href="styles/board.css" rel="stylesheet">
     <link href="styles/nav.css" rel="stylesheet">
+    <script src="js/index.js"></script>
 </head>
 
 <body>
@@ -18,27 +18,55 @@
         <div>Instructions</div>
     </nav>
 
+  <body>
+    <div id="blur"></div>
     <div id="game-container" class="center">
-        <div id="board">
-            <div class="seed-storage"></div>
-            <div class="seed-hole-row">
-                <div class="seed-hole"></div>
-                <div class="seed-hole"></div>
-                <div class="seed-hole"></div>
-                <div class="seed-hole"></div>
-            </div>
-            <div class="seed-storage"></div>
-            <div class="seed-hole-row">
-                <div class="seed-hole"></div>
-                <div class="seed-hole"></div>
-                <div class="seed-hole"></div>
-                <div class="seed-hole"></div>
-            </div>
-            <div class="seed-storage"></div>
+      <div id="board">
+        <div class="storage center">
+          <div class="hole"></div>
         </div>
-        
+        <div class="hole-area center">
+            <div class="hole-row center">
+                <div class="hole">
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                </div>
+                <div class="hole"></div>
+                <div class="hole">
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                  <div class="seed"></div>
+                </div>
+                <div class="hole"></div>
+                <div class="hole"></div>
+                <div class="hole"></div>
+                
+            </div>
+            <div class="hole-row center">
+                <div class="hole"></div>
+                <div class="hole"></div>
+            </div>
+        </div>
+        <div class="storage center">
+          <div class="hole"></div>
+        </div>
     </div>
-
-</body>
-
+  </body>
 </html>
