@@ -33,12 +33,11 @@
 }
 
 #board .hole-area {
-  max-width: 40em;
   padding: 2em 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1em;
+  flex-grow: 5;
 }
 
 #board .hole-row {
