@@ -23,6 +23,17 @@ nav * {
   margin-top: 10px;
 }
 
+#logo {
+  margin: 0 6% 0 6%;
+  padding-top: 31px;
+}
+
+#logo img {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+}
+
 .center {
   display: flex;
   align-items: center;

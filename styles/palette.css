@@ -1,4 +1,11 @@
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz&display=swap);
+
 :root {
   /* Colors */
   --dark-brown: #4e2d0d;
+  --champagne: #FFA900;
+  --dark-yellow: #FF7600;
+  --wine: #CD113B;
+  --purple: #52006A;
+  --nav-font: Yanone Kaffeesatz;
 }

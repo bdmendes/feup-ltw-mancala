@@ -1,6 +1,19 @@
 @import url(palette.css);
-
-nav * {
-    border-color: black;
-    border-style: solid;
+nav {
+    background-color: var(--wine);
+    font-family: var(--nav-font);
+    font-size: xx-large;
+    font-weight: 500;
 }
+
+nav *:not(#logo):hoover {
+    /*border-color: black;
+    border-style: solid;*/
+    background-color: var(--champagne);
+    
+}
+
+#logo, #logo img{
+    border-style: none;
+    background-color: transparent;
+  }
