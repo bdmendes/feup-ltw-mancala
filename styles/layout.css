@@ -8,12 +8,13 @@ html {
   margin: 0;
 }
 
-nav{
+nav {
   display: flex;
   height: 70px;
   justify-content: center;
-  align-items:flex-start;
+  align-items: flex-start;
 }
+
 nav * {
   flex: 0 0 150px;
   text-align: center;
