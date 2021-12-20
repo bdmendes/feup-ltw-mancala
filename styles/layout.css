@@ -11,27 +11,32 @@ html {
 nav{
   display: flex;
   height: 70px;
-  justify-content: center;
   align-items:flex-start;
+  justify-content: center;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
 }
 nav * {
   flex: 1 1 auto;
   text-align: center;
-  border: 1px;
-  padding: 15px 0 15px 0;
-  margin: 0;
-  margin-top: 10px;
+  padding: 10px 0;
+  margin-top: 5px;
+}
+
+nav div *{
+  padding: 5px;
+  margin: 0 auto;
+  width: 150px;
+  border-radius: 5px;
 }
 
 #logo {
-  flex: 0 0 150px;
-  padding-top: 31px;
+  z-index: 1;
+  padding-top: 30px;
 }
 
-#logo img {
+#logo img{
   padding: 0px;
-  margin: 0px;
-  width: 100%;
 }
 
 .center {

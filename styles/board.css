@@ -5,6 +5,7 @@
   height: 100%;
   perspective: 500px;
   padding: 3em;
+  background-color: var(--dark-lava);
   /*  filter: blur(1px); */
 }
 

@@ -2,18 +2,16 @@
 nav {
     background-color: var(--wine);
     font-family: var(--nav-font);
-    font-size: xx-large;
+    font-size: 2em;
     font-weight: 500;
+    border-color: black;
 }
 
-nav *:not(#logo):hoover {
-    /*border-color: black;
-    border-style: solid;*/
-    background-color: var(--champagne);
-    
+nav div div:hover {
+    background-color: var(--champagne); 
 }
 
 #logo, #logo img{
     border-style: none;
     background-color: transparent;
-  }
+}
