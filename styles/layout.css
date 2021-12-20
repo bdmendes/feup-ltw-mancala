@@ -8,6 +8,12 @@ html {
   margin: 0;
 }
 
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 nav{
   display: flex;
   height: 70px;
@@ -16,14 +22,16 @@ nav{
   border-bottom-style: solid;
   border-bottom-width: 3px;
 }
+
 nav * {
   flex: 1 1 auto;
-  text-align: center;
-  padding: 10px 0;
   margin-top: 5px;
+  padding: 10px 0;
+  text-align: center;
 }
+  
 
-nav div *{
+nav div * {
   padding: 5px;
   margin: 0 auto;
   width: 150px;
@@ -39,8 +47,3 @@ nav div *{
   padding: 0px;
 }
 
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
