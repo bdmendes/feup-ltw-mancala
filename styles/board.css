@@ -1,12 +1,13 @@
 @import url(palette.css);
 
 #game-container {
+  background-color: #ccc;
   width: 100%;
   height: 100%;
   perspective: 500px;
   padding: 3em;
   background-color: var(--dark-lava);
-  /*  filter: blur(1px); */
+  filter: blur(5px);
 }
 
 #board {

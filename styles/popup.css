@@ -1,0 +1,24 @@
+@import url(palette.css);
+
+/* Style */
+.popup-container {
+  background-color: var(--champagne);
+}
+
+.popup-title *{
+  margin: 0px;
+}
+
+/* Layout */
+.popup {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  margin-top: 170px;
+}
+
+.popup-container {
+  width: 65%;
+  margin: 0 auto;
+  padding: 25px 0;
+}

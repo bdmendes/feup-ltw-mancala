@@ -9,6 +9,8 @@
   <link href="styles/layout.css" rel="stylesheet">
   <link href="styles/board.css" rel="stylesheet">
   <link href="styles/nav.css" rel="stylesheet">
+  <link href="styles/popup.css" rel="stylesheet">
+  <link href="styles/ranking.css" rel="stylesheet">
   <script src="js/index.js"></script>
 </head>
 
@@ -23,7 +25,28 @@
     </div>
   </nav>
 
-  <div id="blur"></div>
+  <div id="ranking" class="popup">
+    <div class="popup-container">
+      <div class="popup-title">
+        <h1>Ranking</h1>
+      </div>
+      <div class="popup-content">
+      <!-- Inject html table here with js-->
+      <!-- Example -->
+      <table>
+        <tr>
+          <th scope="col">Username</th> <th scope="col">Score</th>
+        </tr>
+        <tr>
+          <td>Sirze</td> <td>20</td>
+        </tr>
+        <tr>
+          <td>brod56</td> <td>19</td>
+        </tr>
+      </table>
+      </div>
+    </div>
+  </div>
 
   <div id="game-container" class="center">
     <div id="board">
