@@ -15,6 +15,16 @@ class Game {
         this.loadRowsView_();
     }
 
+    play(player, position) {
+        if (player != this.currentToPlay) {
+            alert("Player is not to play!");
+            return;
+        }
+        const s = new String("Playing on player: " + player + "; position: " + position);
+        alert(s);
+        this.play_(player, position);
+    }
+
     play_(player, position) {
         let remainingSeeds = this.board[player * 2][position];
         if (remainingSeeds === 0) return;
@@ -38,7 +48,7 @@ class Game {
                 if (this.board[player * 2][position] === 1 && playerSide(cof)) {
                     let seedsStorage = this.board[0][position] + this.board[2][position];
                     while (seedsStorage--)
-                        this.addSeed_(_, player === 0 ? -1 : this.board[0].length);
+                        this.addSeed_(player, player === 0 ? -1 : this.board[0].length);
                     this.removeSeeds_(0, position);
                     this.removeSeeds_(1, position);
                 }
@@ -86,6 +96,7 @@ class Game {
             for (let rowNumber of [0, 1]) {
                 const hole = document.createElement("div");
                 hole.classList.add("hole");
+                hole.addEventListener("click", () => this.play(rowNumber, i));
                 rows[rowNumber].appendChild(hole);
                 let numberSeeds = this.board[rowNumber * 2][i];
                 this.board[rowNumber * 2][i] = 0;

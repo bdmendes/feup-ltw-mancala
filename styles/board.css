@@ -48,11 +48,11 @@
 
 #board .hole {
     flex-basis: 6rem;
+    min-width: 6rem;
     height: 12rem;
     background-color: black;
     opacity: 40%;
     overflow: hidden;
-    flex-grow: 0;
 }
 
 #board .storage .hole {
