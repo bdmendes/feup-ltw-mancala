@@ -25,19 +25,11 @@
     border: 0.3em solid darkslategrey;
 }
 
-#board .storage {
-    flex-basis: 7rem;
-    padding: 5em 0;
-    margin: 0 1em;
-    display: flex;
-}
-
 #board .hole-area {
     padding: 2em 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-grow: 5;
 }
 
 #board .hole-row {
@@ -49,12 +41,22 @@
     gap: 1em;
 }
 
+#board .storage {
+    padding: 5em 0;
+    margin: 0 1em;
+}
+
 #board .hole {
-    flex-basis: 7rem;
+    flex-basis: 6rem;
     height: 12rem;
     background-color: black;
     opacity: 40%;
     overflow: hidden;
+    flex-grow: 0;
+}
+
+#board .storage .hole {
+    width: 6rem;
 }
 
 #board .seed {
@@ -65,5 +67,4 @@
     height: 2.5em;
     border: 5px inset darkolivegreen;
     border-radius: 50%;
-    transform: rotateZ(20deg);
 }
