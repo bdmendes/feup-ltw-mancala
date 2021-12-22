@@ -1,42 +1,54 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body,
 html {
-  height: 100%;
-  margin: 0;
+    height: 100%;
+    margin: 0;
 }
 
 nav {
-  display: flex;
-  height: 70px;
-  justify-content: center;
-  align-items: flex-start;
+    display: flex;
+    height: 70px;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 nav * {
-  flex: 0 0 150px;
-  text-align: center;
-  border: 1px;
-  padding: 15px 0 15px 0;
-  margin: 6%;
-  margin-top: 10px;
+    flex: 0 0 150px;
+    text-align: center;
+    border: 1px;
+    padding: 15px 0 15px 0;
+    margin: 6%;
+    margin-top: 10px;
 }
 
 #logo {
-  margin: 0 6% 0 6%;
-  padding-top: 31px;
+    margin: 0 6% 0 6%;
+    padding-top: 31px;
 }
 
 #logo img {
-  padding: 0px;
-  margin: 0px;
-  width: 100%;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
 }
 
 .center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.fall {
+    animation: falling 2s;
+}
+
+@keyframes falling {
+    from {
+        transform: scale(2);
+    }
+    to {
+    }
 }

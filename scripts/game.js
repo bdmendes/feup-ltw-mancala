@@ -15,14 +15,40 @@ class Game {
         this.loadRowsView_();
     }
 
+    isGameOver() {
+        const totalSeeds = this.board[this.currentToPlay * 2].reduce((a, b) => a + b, 0);
+        return totalSeeds === 0;
+    }
+
+    getWinner() {
+        if (this.board[1] === this.board[3]) return -1;
+        return this.board[1] > this.board[3] ? 0 : 1;
+    }
+
+    endGame() {
+        console.log(JSON.parse(JSON.stringify(this.board)));
+        for (let player of [0, 1]) {
+            for (let j = 0; j < this.board[0].length; j++) {
+                let numberSeeds = this.board[player * 2][j];
+                if (numberSeeds > 0) {
+                    alert(numberSeeds);
+                    this.addSeeds_(numberSeeds, player, player === 0 ? -1 : this.board[0].length);
+                }
+
+                this.removeSeeds_(player, j);
+            }
+        }
+    }
+
     play(player, position) {
         if (player != this.currentToPlay) {
             alert("Player is not to play!");
             return;
         }
-        const s = new String("Playing on player: " + player + "; position: " + position);
-        alert(s);
         this.play_(player, position);
+        if (this.isGameOver()) {
+            alert("Game is over! Player " + this.getWinner() + " wins!");
+        }
     }
 
     play_(player, position) {
@@ -39,16 +65,20 @@ class Game {
             if (position === -1 || position === this.board[0].length) {
                 if (playerSide(cof)) {
                     remainingSeeds--;
-                    this.addSeed_(player, position);
+                    this.addSeeds_(1, player, position);
                 }
                 cof *= -1;
             } else {
                 remainingSeeds--;
-                this.addSeed_(cof === -1 ? 0 : 1, position);
-                if (this.board[player * 2][position] === 1 && playerSide(cof)) {
+                this.addSeeds_(1, cof === -1 ? 0 : 1, position);
+                if (
+                    remainingSeeds === 0 &&
+                    this.board[player * 2][position] === 1 &&
+                    playerSide(cof)
+                ) {
                     let seedsStorage = this.board[0][position] + this.board[2][position];
                     while (seedsStorage--)
-                        this.addSeed_(player, player === 0 ? -1 : this.board[0].length);
+                        this.addSeeds_(1, player, player === 0 ? -1 : this.board[0].length);
                     this.removeSeeds_(0, position);
                     this.removeSeeds_(1, position);
                 }
@@ -72,21 +102,29 @@ class Game {
         }
     }
 
-    addSeed_(player, position) {
-        if (position === -1) this.board[1]++;
-        else if (position === this.board[0].length) this.board[3]++;
-        else this.board[player * 2][position]++;
+    addSeeds_(numberSeeds, player, position, fall = true) {
+        while (numberSeeds--) {
+            if (position === -1) this.board[1]++;
+            else if (position === this.board[0].length) this.board[3]++;
+            else this.board[player * 2][position]++;
 
-        const seed = document.createElement("div");
-        seed.classList.add("seed");
-        this.getHoleNode_(player, position).appendChild(seed);
+            const seed = document.createElement("div");
+            seed.classList.add("seed");
+            if (fall) seed.classList.add("fall");
+            const topPad = Math.round(Math.random() * 10);
+            const leftPad = Math.round(Math.random() * 10);
+            seed.style.top = topPad + "px";
+            seed.style.left = leftPad + "px";
+            const rotation = Math.round(Math.random() * 60) - 30;
+            seed.style.transform = " rotate(" + rotation + "deg)";
+            this.getHoleNode_(player, position).appendChild(seed);
+        }
     }
 
     removeSeeds_(player, position) {
         if (position === -1) this.board[1] = 0;
         else if (position === this.board[0].length) this.board[3] = 0;
         else this.board[player * 2][position] = 0;
-
         this.getHoleNode_(player, position).innerHTML = "";
     }
 
@@ -100,9 +138,7 @@ class Game {
                 rows[rowNumber].appendChild(hole);
                 let numberSeeds = this.board[rowNumber * 2][i];
                 this.board[rowNumber * 2][i] = 0;
-                while (numberSeeds--) {
-                    this.addSeed_(rowNumber, i);
-                }
+                this.addSeeds_(numberSeeds, rowNumber, i, false);
             }
         }
     }
