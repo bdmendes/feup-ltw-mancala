@@ -1,0 +1,25 @@
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz&display=swap);
+
+:root {
+  /* Colors */
+  --dark-brown: #4e2d0d;
+  --champagne: #ffa900;
+  --dark-yellow: #ff7600;
+  --wine: #cd113b;
+  --purple: #52006a;
+  --davys-grey: #605b56;
+  --seal-brown: #452103;
+  --silver-chalice: #a2abab;
+  --laurel-green: #b4c4ae;
+  --ash-grey: #9caea9;
+  --royal-blue-dark: #101957;
+  --lapis-lazulli: #2660a4;
+  --verdigris: #75b9be;
+  --tuscan-red: #885053;
+  --blood-red: #69140e;
+  --dark-lava: #4b4237;
+  --fuzzy-wuzzy: #c1666b;
+
+  /* Fonts */
+  --nav-font: Yanone Kaffeesatz;
+}
