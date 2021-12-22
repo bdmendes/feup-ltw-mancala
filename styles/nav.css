@@ -1,19 +1,46 @@
 @import url(palette.css);
+
+/* Style */
 nav {
-    background-color: var(--wine);
-    font-family: var(--nav-font);
-    font-size: xx-large;
-    font-weight: 500;
+  background-color: var(--wine);
+  font-family: var(--nav-font);
+  font-size: 2em;
+  font-weight: 500;
+  border-color: black;
 }
 
-nav *:not(#logo):hoover {
-    /*border-color: black;
-    border-style: solid;*/
-    background-color: var(--champagne);
-    
+nav div div:hover {
+  background-color: var(--champagne);
 }
 
-#logo, #logo img{
-    border-style: none;
-    background-color: transparent;
-  }
+/* Layout */
+nav {
+  display: flex;
+  height: 70px;
+  justify-content: center;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+}
+
+nav * {
+  flex: 1 1 auto;
+  margin-top: 5px;
+  padding: 10px 0;
+  text-align: center;
+}
+
+nav div * {
+  padding: 5px;
+  margin: 0 auto;
+  width: 150px;
+  border-radius: 5px;
+}
+
+#logo {
+  z-index: 1;
+  padding-top: 30px;
+}
+
+#logo img {
+  padding: 0px;
+}
