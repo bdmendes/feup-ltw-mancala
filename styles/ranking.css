@@ -1,17 +1,11 @@
 @import url(palette.css);
 
-/* Style */
-
-#ranking .popup-content table{
-    margin: 0 auto;
-    width: 50%;
-    text-align: center;
-    columns: 130px 2;
-    font-family: var(--popup-font);
-    font-size: 1.5em;
+#ranking {
+  visibility: hidden;
 }
 
-#ranking .popup-content table *{
-    width: 50%;
-
+/* Layout */
+#ranking .popup-content table,
+#ranking .popup-content table * {
+  width: 50%;
 }

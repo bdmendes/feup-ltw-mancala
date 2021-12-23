@@ -1,0 +1,8 @@
+#instructions {
+  visibility: hidden;
+}
+
+/* Layout */
+#instructions .popup-content {
+  padding: 0 10px 0 10px;
+}
