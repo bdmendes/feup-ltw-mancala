@@ -1,5 +1,7 @@
 {
     "recommendations": [
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "sidthesloth.html5-boilerplate",
+        "ecmel.vscode-html-css"
     ]
 }
