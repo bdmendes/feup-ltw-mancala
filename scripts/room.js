@@ -1,8 +1,9 @@
 class Room {
-  constructor(token, game) {
-    this.token = token;
-    this.game = game;
-  }
+    constructor(token, game, player0, player1) {
+        this.token = token;
+        this.game = game;
+        this.players = [player0, player1];
+    }
 }
 
 export default Room;
