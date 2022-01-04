@@ -122,31 +122,80 @@
 
     <div id="settings" class="popup-container">
       <div class="popup">
-        <span>Close</span>
+        <span id="close">Close</span>
         <div class="popup-title">
           <h1>Settings</h1>
         </div>
         <div class="popup-content">
           <div class="tab-selector">
-            <input type="radio" name="mode" id="sp" value="sp" checked>
-            <label for="sp">Singleplayer</label><input type="radio" name="mode" id="mp" value="mp"><label for="mp">Multiplayer</label>
+            <input type="radio" name="mode" id="sp" value="sp" checked />
+            <label for="sp">Singleplayer</label
+            ><input type="radio" name="mode" id="mp" value="mp" /><label
+              for="mp"
+              >Multiplayer</label
+            >
           </div>
-          <div class="tab" id="tab-sp">
+          <div class="tab" id="tab-mp">
+            <div>
+              <input type="radio" name="join-create" id="j" value="0" />
+              <label for="j">Join</label
+              ><input type="radio" name="join-create" id="c" value="1" /><label
+                for="c"
+                >Create</label
+              >
+            </div>
+          </div>
+          <div class="tab" id="tab-mp-join">
+            <div>
+              <input type="radio" name="join-create" id="j" value="0" />
+              <label for="j">Join</label
+              ><input type="radio" name="join-create" id="c" value="1" /><label
+                for="c"
+                >Create</label
+              >
+            </div>
+          </div>
+          <div class="tab" id="tab-st">
             <label for="cavities">Cavities</label>
-            <input type="number" name="cavities" id="cavities" value="6" min="1">
-            
-            <label for="seeds">Seeds per cavity</label>
-            <input type="number" name="seeds" id="seeds" value="4" min="1">
+            <input
+              type="number"
+              name="cavities"
+              id="cavities"
+              value="6"
+              min="1"
+            />
 
-            <label for="dificulty">Dificulty</label>
-            <input type="range" name="dificulty" id="dificulty" value="1" min="1" max="3">
-          
+            <label for="seeds">Seeds per cavity</label>
+            <input type="number" name="seeds" id="seeds" value="4" min="1" />
+
+            <label for="difficulty">Difficulty</label>
+            <input
+              type="range"
+              name="difficulty"
+              id="difficulty"
+              value="1"
+              min="1"
+              max="3"
+            />
+
             <div class="fst">
               Who starts?
-              <input type="radio" name="user_turn" id="fst-user1" value="1" checked>
-            <label for="fst-user1">User</label><input type="radio" name="user_turn" id="fst-user2" value="0"><label for="fst-user2">Computer</label>
+              <input
+                type="radio"
+                name="user_turn"
+                id="fst-user1"
+                value="1"
+                checked
+              />
+              <label for="fst-user1">User</label
+              ><input
+                type="radio"
+                name="user_turn"
+                id="fst-user2"
+                value="0"
+              /><label for="fst-user2">Computer</label>
             </div>
-          
+
             <button type="button">Play!</button>
           </div>
         </div>

@@ -6,7 +6,7 @@
 
 .tab-selector {
   text-align: left;
-  margin: 10px 0 3px 25px;
+  margin: 10px 0 -2px 25px;
 }
 
 .tab-selector input[type="radio"] {
@@ -25,20 +25,27 @@
   border-color: transparent;
   padding: 5px;
   border-radius: 5px 5px 0 0;
+  display: inline-block;
+  width: 100px;
 }
 
 .tab * {
   display: block;
   margin-left: 10px;
-  margin-top: 5px;
   text-align: left;
+  margin-top: 10px;
+}
+
+#tab-st{
+  display:none;
 }
 
 .tab {
-  margin: auto 10px;
+  margin: 0 10px;
   border-style: solid;
   border-color: black;
-  border-width: 2px;
+  border-width:  2px;
+  height: 345px;
 }
 
 .tab {
@@ -77,4 +84,40 @@
   border-radius: 5px;
   border-color: black;
   background-color: var(--champagne);
+}
+
+
+#tab-mp input[type="radio"] {
+  display: none;
+}
+
+#tab-mp-join {
+  display: none;
+}
+
+#tab-mp{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#tab-mp div{
+  margin: 0 auto;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+}
+
+#tab-mp label {
+  cursor:pointer;
+  text-align: center;
+  margin: 0;
+  display: inline-block;
+  border-width: 2px;
+  border-color: transparent;
+  border-style: solid;
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  border-color: black;
 }
