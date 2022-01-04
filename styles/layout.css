@@ -1,16 +1,28 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body,
 html {
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
+    height: 100%;
+    margin: 0;
+    overflow: hidden
 }
 
 .center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.fall {
+    animation: falling 2s;
+}
+
+@keyframes falling {
+    from {
+        transform: scale(2);
+    }
+    to {
+    }
 }
