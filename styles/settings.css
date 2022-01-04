@@ -1,3 +1,80 @@
+@import url(palette.css);
+
 #settings {
-    visibility: visible;
+  visibility: visible;
+}
+
+.tab-selector {
+  text-align: left;
+  margin: 10px 0 3px 25px;
+}
+
+.tab-selector input[type="radio"] {
+  display: none;
+}
+
+.tab-selector input[type="radio"]:checked + label {
+  border-color: black;
+  background-color: var(--wine);
+}
+
+.tab-selector label {
+  cursor: pointer;
+  border-width: 2px 2px 0 2px;
+  border-style: solid;
+  border-color: transparent;
+  padding: 5px;
+  border-radius: 5px 5px 0 0;
+}
+
+.tab * {
+  display: block;
+  margin-left: 10px;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.tab {
+  margin: auto 10px;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+}
+
+.tab {
+  padding-bottom: 5px;
+}
+
+.fst input[type="radio"] {
+  display: none;
+}
+
+.fst label {
+  cursor:pointer;
+  text-align: center;
+  margin: 0;
+  display: inline-block;
+  border-width: 2px;
+  border-color: transparent;
+  border-style: solid;
+  border-radius: 5px;
+  width: 85px;
+  padding: 2px;
+}
+
+.fst input[type="radio"]:checked + label {
+  border-color: black;
+}
+
+.tab button {
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 1.5em;
+  padding: 5px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: black;
+  background-color: var(--champagne);
 }

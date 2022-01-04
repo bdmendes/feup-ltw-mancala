@@ -1,157 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Mancala</title>
+    <link rel="icon" type="image/gif" href="img/favicon.png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="styles/layout.css" rel="stylesheet" />
+    <link href="styles/board.css" rel="stylesheet" />
+    <link href="styles/nav.css" rel="stylesheet" />
+    <link href="styles/popup.css" rel="stylesheet" />
+    <link href="styles/ranking.css" rel="stylesheet" />
+    <link href="styles/instructions.css" rel="stylesheet" />
+    <link href="styles/settings.css" rel="stylesheet" />
+    <script src="js/index.js"></script>
+  </head>
 
-<head>
-  <title>Mancala</title>
-  <link rel="icon" type="image/gif" href="img/favicon.png" />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="styles/layout.css" rel="stylesheet">
-  <link href="styles/board.css" rel="stylesheet">
-  <link href="styles/nav.css" rel="stylesheet">
-  <link href="styles/popup.css" rel="stylesheet">
-  <link href="styles/ranking.css" rel="stylesheet">
-  <link href="styles/instructions.css" rel="stylesheet">
-  <link href="styles/settings.css" rel="stylesheet">
-  <script src="js/index.js"></script>
-</head>
-
-<body>
-  <nav>
-    <div>
-      <div>Ranking</div>
-    </div>
-    <div id=logo><img src="img/big_logo.png" alt="Logo"></div>
-    <div>
-      <div>Instructions</div>
-    </div>
-  </nav>
-
-  <div id="ranking" class="popup-container">
-    <div class="popup">
-      <div class="popup-title">
-        <h1>Ranking</h1>
+  <body>
+    <nav>
+      <div>
+        <div>Ranking</div>
       </div>
-      <div class="popup-content">
-      <!-- Inject html table here with js-->
-      <!-- Example -->
-      <table>
-        <tr>
-          <th scope="col">Username</th> <th scope="col">Score</th>
-        </tr>
-        <tr>
-          <td>Sirze</td> <td>20</td>
-        </tr>
-        <tr>
-          <td>brod56</td> <td>19</td>
-        </tr>
-        <tr>
-          <td>brod56</td> <td>19</td>
-        </tr>
-        <tr>
-          <td>brod56</td> <td>19</td>
-        </tr>
-        <tr>
-          <td>brod56</td> <td>19</td>
-        </tr>
-        <tr>
-          <td>brod56</td> <td>19</td>
-        </tr>
-        <tr>
-          <td>brod56</td> <td>19</td>
-        </tr>
-        <tr>
-          <td>brod56</td> <td>19</td>
-        </tr>
-        <tr>
-          <td>brod56</td> <td>19</td>
-        </tr>
-        <tr>
-          <td>brod56</td> <td>19</td>
-        </tr>
-      </table>
+      <div id="logo"><img src="img/big_logo.png" alt="Logo" /></div>
+      <div>
+        <div>Instructions</div>
       </div>
-    </div>
-  </div>
+    </nav>
 
-  <div id="instructions" class="popup-container">
-    <div class="popup">
-      <div class="popup-title">
-        <h1>Instructions</h1>
-      </div>
-      <div class="popup-content">
-      <p>There are 2 rows of cavities and 2 containers.
-        Each player controls the cavities in its side and the container to its right.</p>
-      <p>In the begining of the game the containers are empty and each cavity has the same number of seeds.</p>
-      <p>Each player will, alternately, take the seeds in one of its cavities and sew one in each of the next cavities and in its container counterclockwisely. 
-        If the last seed is placed in the container, the current player has the next turn.
-        If the last seed falls into a previously empty cavity controlled by the player, that seed and the seeds in the oposite cavity are placed in its container.
-      </p>
-      <p>The game ends when a player can't sew due to lack of seeds. The other player places the seeds in its cavities in its container. Wins the player with more seeds.</p>
-    </div>
-    </div>
-  </div>
-
-  <div id="settings" class="popup-container">
-    <div class="popup">
-      <div class="popup-title">
-        <h1>Settings</h1>
-      </div>
-      <div class="popup-content">
-      <!-- Insert form here-->
-    </div>
-    </div>
-  </div>
-
-
-  <div id="game-container" class="center">
-    <div id="board">
-      <div class="storage center">
-        <div class="hole"></div>
-      </div>
-      <div class="hole-area center">
-        <div class="hole-row center">
-          <div class="hole">
-            <div class="seed"></div>
-            <div class="seed"></div>
-          </div>
-          <div class="hole"></div>
-          <div class="hole">
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-            <div class="seed"></div>
-          </div>
-          <div class="hole"></div>
-          <div class="hole"></div>
-          <div class="hole"></div>
-
+    <div id="ranking" class="popup-container">
+      <div class="popup">
+        <div class="popup-title">
+          <h1>Ranking</h1>
         </div>
-        <div class="hole-row center">
-          <div class="hole"></div>
-          <div class="hole"></div>
+        <div class="popup-content">
+          <!-- Inject html table here with js-->
+          <!-- Example -->
+          <table>
+            <tr>
+              <th scope="col">Username</th>
+              <th scope="col">Score</th>
+            </tr>
+            <tr>
+              <td>Sirze</td>
+              <td>20</td>
+            </tr>
+            <tr>
+              <td>brod56</td>
+              <td>19</td>
+            </tr>
+            <tr>
+              <td>brod56</td>
+              <td>19</td>
+            </tr>
+            <tr>
+              <td>brod56</td>
+              <td>19</td>
+            </tr>
+            <tr>
+              <td>brod56</td>
+              <td>19</td>
+            </tr>
+            <tr>
+              <td>brod56</td>
+              <td>19</td>
+            </tr>
+            <tr>
+              <td>brod56</td>
+              <td>19</td>
+            </tr>
+            <tr>
+              <td>brod56</td>
+              <td>19</td>
+            </tr>
+            <tr>
+              <td>brod56</td>
+              <td>19</td>
+            </tr>
+            <tr>
+              <td>brod56</td>
+              <td>19</td>
+            </tr>
+          </table>
         </div>
       </div>
-      <div class="storage center">
-        <div class="hole"></div>
+    </div>
+
+    <div id="instructions" class="popup-container">
+      <div class="popup">
+        <div class="popup-title">
+          <h1>Instructions</h1>
+        </div>
+
+        <div class="popup-content">
+          <h2>Board</h2>
+          <p>
+            There are 2 rows of cavities and 2 containers. Each player controls
+            the cavities in its side and the container to its right.
+          </p>
+          <h2>Start</h2>
+          <p>
+            In the begining of the game the containers are empty and each cavity
+            has the same number of seeds.
+          </p>
+          <h2>Game</h2>
+          <p>
+            Each player will, alternately, take the seeds in one of its cavities
+            and sew one in each of the next cavities and in its container
+            counterclockwisely. If the last seed is placed in the container, the
+            current player has the next turn. If the last seed falls into a
+            previously empty cavity controlled by the player, that seed and the
+            seeds in the oposite cavity are placed in its container.
+          </p>
+          <h2>Ending</h2>
+          <p>
+            The game ends when a player can't sew due to lack of seeds. The
+            other player places the seeds in its cavities in its container. Wins
+            the player with more seeds in .
+          </p>
+        </div>
       </div>
     </div>
-</body>
 
+    <div id="settings" class="popup-container">
+      <div class="popup">
+        <span>Close</span>
+        <div class="popup-title">
+          <h1>Settings</h1>
+        </div>
+        <div class="popup-content">
+          <div class="tab-selector">
+            <input type="radio" name="mode" id="sp" value="sp" checked>
+            <label for="sp">Singleplayer</label><input type="radio" name="mode" id="mp" value="mp"><label for="mp">Multiplayer</label>
+          </div>
+          <div class="tab" id="tab-sp">
+            <label for="cavities">Cavities</label>
+            <input type="number" name="cavities" id="cavities" value="6" min="1">
+            
+            <label for="seeds">Seeds per cavity</label>
+            <input type="number" name="seeds" id="seeds" value="4" min="1">
+
+            <label for="dificulty">Dificulty</label>
+            <input type="range" name="dificulty" id="dificulty" value="1" min="1" max="3">
+          
+            <div class="fst">
+              Who starts?
+              <input type="radio" name="user_turn" id="fst-user1" value="1" checked>
+            <label for="fst-user1">User</label><input type="radio" name="user_turn" id="fst-user2" value="0"><label for="fst-user2">Computer</label>
+            </div>
+          
+            <button type="button">Play!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="game-container" class="center">
+      <div id="board">
+        <div class="storage center">
+          <div class="hole"></div>
+        </div>
+        <div class="hole-area center">
+          <div class="hole-row center">
+            <div class="hole">
+              <div class="seed"></div>
+              <div class="seed"></div>
+            </div>
+            <div class="hole"></div>
+            <div class="hole">
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+              <div class="seed"></div>
+            </div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+          </div>
+          <div class="hole-row center">
+            <div class="hole"></div>
+            <div class="hole"></div>
+          </div>
+        </div>
+        <div class="storage center">
+          <div class="hole"></div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
