@@ -1,0 +1,5 @@
+/* Layout */
+#ranking .popup-content table,
+#ranking .popup-content table * {
+  width: 50%;
+}

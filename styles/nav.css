@@ -5,11 +5,14 @@ nav {
   background-color: var(--wine);
   font-family: var(--nav-font);
   font-size: 2em;
-  font-weight: 500;
   border-color: black;
 }
 
-nav div div:hover {
+#center div{
+  background-color: var(--wine);
+}
+
+nav div div:hover, #center div:hover{
   background-color: var(--champagne);
 }
 
@@ -30,17 +33,20 @@ nav * {
 }
 
 nav div * {
+  user-select: none;
+  cursor: pointer;
   padding: 5px;
   margin: 0 auto;
   width: 150px;
   border-radius: 5px;
 }
 
-#logo {
+#center {
   z-index: 1;
-  padding-top: 30px;
+  padding-top: 10px;
 }
 
-#logo img {
-  padding: 0px;
+#center img {
+  cursor:unset;
+  margin-bottom: 15px;
 }
