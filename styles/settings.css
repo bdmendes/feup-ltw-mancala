@@ -1,123 +1,144 @@
 @import url(palette.css);
 
-#settings {
-  visibility: visible;
-}
+/* Style */
 
-.tab-selector {
-  text-align: left;
-  margin: 10px 0 -2px 25px;
-}
-
-.tab-selector input[type="radio"] {
-  display: none;
+.tab-selector label,
+#variable label {
+    border-color: transparent;
 }
 
 .tab-selector input[type="radio"]:checked + label {
-  border-color: black;
-  background-color: var(--wine);
+    border-color: black;
+    background-color: var(--champagne);
+}
+
+#variable input[type="radio"]:checked + label,
+#play {
+    background-color: transparent;
+    border-color: black;
+}
+
+.tab {
+    border-color: black;
+}
+
+/* Layout */
+#settings .popup-content * {
+    text-align: left;
+}
+
+#settings input[type="radio"] {
+    display: none;
+}
+
+.tab-selector {
+    margin: 0px 0 -2px 20px;
+}
+
+.tab-selector label,
+#variable label {
+    cursor: pointer;
+    border-style: solid;
+    display: inline-flex;
+    justify-content: center;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .tab-selector label {
-  cursor: pointer;
-  border-width: 2px 2px 0 2px;
-  border-style: solid;
-  border-color: transparent;
-  padding: 5px;
-  border-radius: 5px 5px 0 0;
-  display: inline-block;
-  width: 100px;
-}
-
-.tab * {
-  display: block;
-  margin-left: 10px;
-  text-align: left;
-  margin-top: 10px;
-}
-
-#tab-st{
-  display:none;
+    border-width: 2px 2px 0 2px;
+    border-radius: 5px 5px 0 0;
+    width: 110px;
 }
 
 .tab {
-  margin: 0 10px;
-  border-style: solid;
-  border-color: black;
-  border-width:  2px;
-  height: 345px;
+    margin: 0 10px;
+    border-style: solid;
+    border-width: 2px;
+    height: 355px;
+    padding-bottom: 5px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: min-content;
+    gap: 0;
 }
 
-.tab {
-  padding-bottom: 5px;
+#options * {
+    display: block;
+    margin: 0;
 }
 
-.fst input[type="radio"] {
-  display: none;
+#options {
+    grid-column: 1;
+    grid-row: 1;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
-.fst label {
-  cursor:pointer;
-  text-align: center;
-  margin: 0;
-  display: inline-block;
-  border-width: 2px;
-  border-color: transparent;
-  border-style: solid;
-  border-radius: 5px;
-  width: 85px;
-  padding: 2px;
+#login {
+    grid-column: 3;
+    grid-row: 1;
 }
 
-.fst input[type="radio"]:checked + label {
-  border-color: black;
+#options input[type="range"] {
+    margin-right: 15px;
+}
+#options div {
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    margin-top: 5px;
 }
 
-.tab button {
-  cursor: pointer;
-  display: inline-flex;
-  justify-content: center;
-  font-family: inherit;
-  font-size: 1.5em;
-  padding: 5px;
-  border-style: solid;
-  border-radius: 5px;
-  border-color: black;
-  background-color: var(--champagne);
+#variable {
+    height: 60px;
+    display: block !important;
 }
 
-
-#tab-mp input[type="radio"] {
-  display: none;
+#variable input[type="text"] {
+    margin-top: 10px;
 }
 
-#tab-mp-join {
-  display: none;
+#variable label {
+    margin-top: 5px;
+    width: 85px;
+    padding: 2px;
 }
 
-#tab-mp{
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#play {
+    grid-column: 2;
+    grid-row: 2;
+
+    margin: 25px auto 0 auto;
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit;
+    font-size: 1.5em;
+    padding: 5px;
+    border-style: solid;
+    border-radius: 5px;
 }
 
-#tab-mp div{
-  margin: 0 auto;
-  width: 70%;
-  display: flex;
-  justify-content: center;
+#login {
+    margin: auto auto;
+    display: block;
 }
 
-#tab-mp label {
-  cursor:pointer;
-  text-align: center;
-  margin: 0;
-  display: inline-block;
-  border-width: 2px;
-  border-color: transparent;
-  border-style: solid;
-  border-radius: 5px;
-  width: 100%;
-  padding: 10px;
-  border-color: black;
+#login * {
+    display: block;
+    margin: 10px auto;
+}
+
+#login label {
+    width: 80px !important;
+}
+
+#login input[type="text"],
+#login input[type="password"] {
+    margin-left: 5px;
+    width: 150px;
 }

@@ -2,39 +2,44 @@
 
 /* Style */
 .popup {
-  background-color: var(--champagne);
-  font-family: var(--popup-font);
-  font-size: 1.5em;
+    background-color: var(--champagne);
+    font-family: var(--popup-font);
+    font-size: 1.5em;
 }
 
 .popup * {
-  text-align: center;
+    text-align: center;
 }
 
 .popup-content {
-  font-size: 1em;
+    font-size: 1em;
 }
 
 /* Layout */
 .popup {
-  text-align: right;
-  padding: 20px 0;
-  margin: 0 auto;
-  width: 65%;
+    text-align: right;
+    padding: 20px 0;
+    margin: 0 auto;
+    width: 65%;
 }
 
-.popup span{
-  padding-top: 30px;
-  margin-right: 30px;
+#close {
+    position: relative;
+    right: 25px;
+    padding: 0px;
 }
 
 .popup * {
-  margin: 0 auto;
+    margin: 0 auto;
+}
+
+.popup-content {
+  margin-top: 5px;
 }
 
 .popup-container {
-  position: absolute;
-  margin-top: 100px;
-  width: 100%;
-  z-index: 1;
+    position: absolute;
+    margin-top: 120px;
+    width: 100%;
+    z-index: 1;
 }

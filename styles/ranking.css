@@ -1,9 +1,3 @@
-@import url(palette.css);
-
-#ranking {
-  visibility: hidden;
-}
-
 /* Layout */
 #ranking .popup-content table,
 #ranking .popup-content table * {
