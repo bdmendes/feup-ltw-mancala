@@ -1,4 +1,3 @@
-
 function blurGameContainer() {
     document.getElementById("game-container").style.filter = "blur(5px)";
 }
@@ -77,7 +76,7 @@ function getVariable(variable) {
 type="radio"
 name="user_turn"
 id="rdm"
-value="0"
+value="3"
 /><label for="rdm">Random</label></div>`;
 
     switch (variable) {
@@ -230,7 +229,7 @@ function getPopup(text) {
                 `
                 </div>
                 </div>
-                <button id="play" type="button" onclick="setGame()">Play!</button>
+                <button id="play" type="button">Play!</button>
               </div>
             
               
@@ -255,3 +254,6 @@ function hidePopup(element) {
     element.remove();
     unBlurGameContainer();
 }
+
+window.hidePopup = hidePopup;
+window.showPopup = showPopup;
