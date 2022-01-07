@@ -49,17 +49,17 @@ class Game {
         let maxGain = -999999;
         let bestPosition = -1;
         for (let i = 0; i < game.board[0].length; i++) {
-            console.log("Curr: " + curr + "; depth: " + depth + "; i: " + i);
+            // console.log("Curr: " + curr + "; depth: " + depth + "; i: " + i);
             let newGame = Game.assembleGame(game.board, game.storage, game.currentToPlay);
             if (newGame.board[newGame.currentToPlay][i] === 0) {
                 continue;
             }
-            console.log(JSON.parse(JSON.stringify(newGame.board)));
+            // console.log(JSON.parse(JSON.stringify(newGame.board)));
             let gain = 0;
             gain += newGame.play_(newGame.currentToPlay, i, false);
-            if (gain > 0) console.log("Gain detected: " + gain);
+            if (gain > 0) //console.log("Gain detected: " + gain);
             if (newGame.currentToPlay === curr) {
-                console.log("Playing again...");
+                // console.log("Playing again...");
                 gain += newGame.play_(newGame.currentToPlay, Game.calculateBestPlay_(newGame, depth)[0], false);
             }
             gain -= Game.calculateBestPlay_(newGame, depth - 1)[1];
@@ -68,7 +68,7 @@ class Game {
                 bestPosition = i;
             }
         }
-        console.log(
+         /* console.log(
             "Final best gain for depth " +
                 depth +
                 "; player " +
@@ -77,7 +77,7 @@ class Game {
                 bestPosition +
                 ", gain: " +
                 maxGain
-        );
+        ); */
         return [bestPosition, maxGain];
     }
 

@@ -22,28 +22,30 @@ class Computer extends Player {
         };
     }
 
-    play(game) {
+    async play(game) {
         while(!game.play(0, this.getPlay(game))){
-            this.wait();
+            if(game.isGameOver()){return;}
+            await this.sleep(1000);
         }
     }
 
-    async wait(){await (() => new Promise((resolve) => setTimeout(resolve, 1000)))();}
+    async sleep(interval){return new Promise((resolve) => setTimeout(resolve, interval));}
 
     getPlay(game){
         if(this.difficulty == 3){
             return game.calculateBestPlay(2)[0];
         }
         if(this.difficulty == 2){
-            return Math.random % 2 ? game.calculateBestPlay(2) : Math.floor(Math.random() * game.board[0].length);
+            return game.calculateBestPlay(1)[0];
         }
         
         return Math.floor(Math.random() * game.board[0].length);
     }
 }
 
+
 class RemotePlayer extends Player{
-    constructor(){
+    constructor(username){
 
     }
 }

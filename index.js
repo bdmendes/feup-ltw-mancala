@@ -69,7 +69,8 @@ function setupGame(form) {
 
     if (mode == "cr" || mode == "jn") {
         user1 = new Player(username, password);
-        user0 = new RemotePlayer();
+        window.room = new RemoteRoom(user1);
+                
     }
 
     window.room.game.loadView();
