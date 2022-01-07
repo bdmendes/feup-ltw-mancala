@@ -49,17 +49,17 @@ class Game {
         let maxGain = -999999;
         let bestPosition = -1;
         for (let i = 0; i < game.board[0].length; i++) {
-            console.log("Curr: " + curr + "; depth: " + depth + "; i: " + i);
+            // console.log("Curr: " + curr + "; depth: " + depth + "; i: " + i);
             let newGame = Game.assembleGame(game.board, game.storage, game.currentToPlay);
             if (newGame.board[newGame.currentToPlay][i] === 0) {
                 continue;
             }
-            console.log(JSON.parse(JSON.stringify(newGame.board)));
+            // console.log(JSON.parse(JSON.stringify(newGame.board)));
             let gain = 0;
             gain += newGame.play_(newGame.currentToPlay, i, false);
-            if (gain > 0) console.log("Gain detected: " + gain);
+            if (gain > 0) //console.log("Gain detected: " + gain);
             if (newGame.currentToPlay === curr) {
-                console.log("Playing again...");
+                // console.log("Playing again...");
                 gain += newGame.play_(newGame.currentToPlay, Game.calculateBestPlay_(newGame, depth)[0], false);
             }
             gain -= Game.calculateBestPlay_(newGame, depth - 1)[1];
@@ -68,7 +68,7 @@ class Game {
                 bestPosition = i;
             }
         }
-        console.log(
+         /* console.log(
             "Final best gain for depth " +
                 depth +
                 "; player " +
@@ -77,19 +77,24 @@ class Game {
                 bestPosition +
                 ", gain: " +
                 maxGain
-        );
+        ); */
         return [bestPosition, maxGain];
     }
 
     play(player, position) {
+        let lastPlayer = this.currentToPlay;
         if (player != this.currentToPlay) {
-            alert("Player is not to play!");
-            return;
+            alert("Player" + this.currentToPlay + "is not to play!");
+            return false;
         }
         this.play_(player, position);
         if (this.isGameOver()) {
             alert("Game is over! Player " + this.getWinner() + " wins!");
+            this.endGame();
+            return true;
         }
+
+        return lastPlayer === this.currentToPlay ? false : true;
     }
 
     play_(player, position, view = true) {
@@ -170,12 +175,16 @@ class Game {
     }
 
     loadView() {
+        const storageHoles = document.getElementsByClassName("hole");
+        for (let storageHole of storageHoles){
+            storageHole.textContent = '';
+        }
+
         const rows = document.getElementsByClassName("hole-row");
         for (let i = 0; i < this.board[0].length; i++) {
             for (let row of [0, 1]) {
                 const hole = document.createElement("div");
                 hole.classList.add("hole");
-                hole.addEventListener("click", () => this.play(row, i));
                 rows[row].appendChild(hole);
                 let numberSeeds = this.board[row][i];
                 this.board[row][i] = 0;

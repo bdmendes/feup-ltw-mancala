@@ -256,4 +256,3 @@ function hidePopup(element) {
 }
 
 window.hidePopup = hidePopup;
-window.showPopup = showPopup;
