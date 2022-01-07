@@ -1,6 +1,5 @@
 class Player {
-    constructor(name, username, password) {
-        this.name = name;
+    constructor(username, password) {
         this.username = username;
         this.password = password;
     }
@@ -8,7 +7,7 @@ class Player {
 
 class Computer extends Player {
     constructor(difficulty) {
-        super("Computer", "computer", "computer");
+        super("computer", "computer");
         switch (difficulty) {
             case 2:
                 this.difficulty = difficulty;
@@ -33,7 +32,7 @@ class Computer extends Player {
 
     getPlay(game){
         if(this.difficulty == 3){
-            return game.calculateBestPlay(2);
+            return game.calculateBestPlay(2)[0];
         }
         if(this.difficulty == 2){
             return Math.random % 2 ? game.calculateBestPlay(2) : Math.floor(Math.random() * game.board[0].length);
@@ -43,4 +42,10 @@ class Computer extends Player {
     }
 }
 
-export {Player, Computer}; 
+class RemotePlayer extends Player{
+    constructor(){
+
+    }
+}
+
+export {Player, Computer, RemotePlayer}; 

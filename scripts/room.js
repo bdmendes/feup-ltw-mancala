@@ -1,13 +1,12 @@
 import { Computer } from "./player.js";
 
 class Room {
-    constructor(token, game, player0, player1) {
-        this.token = token;
+    constructor(game, player0, player1) {
         this.game = game;
         this.players = [player0, player1];
     }
 
-    setEventListners() {
+    setEventListeners() {
         let rows = document.getElementsByClassName("hole-row");
         console.log(rows);
         for (let hole = 0; hole < this.game.board[0].length; hole++) {
