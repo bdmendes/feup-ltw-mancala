@@ -82,14 +82,19 @@ class Game {
     }
 
     play(player, position) {
+        let lastPlayer = this.currentToPlay;
         if (player != this.currentToPlay) {
-            alert("Player is not to play!");
-            return;
+            alert("Player" + this.currentToPlay + "is not to play!");
+            return false;
         }
         this.play_(player, position);
         if (this.isGameOver()) {
             alert("Game is over! Player " + this.getWinner() + " wins!");
+            this.endGame();
+            return true;
         }
+
+        return lastPlayer === this.currentToPlay ? false : true;
     }
 
     play_(player, position, view = true) {
@@ -170,12 +175,16 @@ class Game {
     }
 
     loadView() {
+        const storageHoles = document.getElementsByClassName("hole");
+        for (let storageHole of storageHoles){
+            storageHole.textContent = '';
+        }
+
         const rows = document.getElementsByClassName("hole-row");
         for (let i = 0; i < this.board[0].length; i++) {
             for (let row of [0, 1]) {
                 const hole = document.createElement("div");
                 hole.classList.add("hole");
-                hole.addEventListener("click", () => this.play(row, i));
                 rows[row].appendChild(hole);
                 let numberSeeds = this.board[row][i];
                 this.board[row][i] = 0;
