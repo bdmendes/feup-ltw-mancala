@@ -51,6 +51,16 @@ window.onload = function () {
     document.getElementById("startGame").addEventListener("click", () => {
         setTimeout(() => {
             document.getElementById("play").addEventListener("click", () => {
+                console.log(window.room);
+                if (window.room != null) {
+                    if (
+                        !window.confirm(
+                            "Current game progress will be lost. Are you sure you want to create a new game?"
+                        )
+                    ) {
+                        return;
+                    }
+                }
                 clearHoles();
                 setupGame(document.forms[0]);
             });
