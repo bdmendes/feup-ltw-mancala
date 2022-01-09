@@ -1,5 +1,3 @@
-import { sleep } from "./utils.js";
-
 class Game {
     constructor(firstToPlay = 1, boardSize = 5, startSeeds = 6) {
         this.board = [new Array(boardSize).fill(startSeeds), new Array(boardSize).fill(startSeeds)];
@@ -28,8 +26,10 @@ class Game {
     endGame_() {
         for (let row of [0, 1]) {
             for (let j = 0; j < this.board[0].length; j++) {
-                this.addSeeds_(this.board[row][j], row, row === 0 ? -1 : this.board[0].length);
-                this.removeSeeds_(row, j);
+                this.addSeedsBoard_(this.board[row][j], row, row === 0 ? -1 : this.board[0].length);
+                this.addSeedsView_(this.board[row][j], row, row === 0 ? -1 : this.board[0].length, true);
+                this.removeSeedsBoard_(row, j);
+                this.removeSeedsView_(row, j);
             }
         }
     }
@@ -72,8 +72,8 @@ class Game {
 
     play(player, position) {
         const lastPlayer = this.currentToPlay;
-        if (player != this.currentToPlay) {
-            alert("Player" + this.currentToPlay + "is not to play!");
+        if (player !== this.currentToPlay) {
+            alert("Player" + this.currentToPlay + " is not to play!");
             return false;
         }
         this.play_(player, position);
@@ -82,7 +82,6 @@ class Game {
             this.endGame_();
             return true;
         }
-        console.log("DUDE");
         return lastPlayer !== this.currentToPlay;
     }
 
@@ -93,30 +92,47 @@ class Game {
         let cof = player === 0 ? -1 : 1;
         const originalCof = cof;
         const playerSide = (currCof) => currCof === originalCof;
-        this.removeSeeds_(player, position, view);
+        this.removeSeedsBoard_(player, position);
+        if (view) this.removeSeedsView_(player, position, view);
 
         let playerSeedGain = 0;
+        let seedViewAdditions = [];
+        let seedViewRemovals = [];
         while (remainingSeeds > 0) {
             position += cof;
             if (position === -1 || position === this.board[0].length) {
                 if (playerSide(cof)) {
                     remainingSeeds--;
-                    this.addSeeds_(1, player, position, view);
+                    this.addSeedsBoard_(1, player, position);
+                    if (view) {
+                        seedViewAdditions.push([1, player, position, true]);
+                    }
                     playerSeedGain++;
                 }
                 cof *= -1;
             } else {
                 remainingSeeds--;
-                this.addSeeds_(1, cof === -1 ? 0 : 1, position, view, true);
+                this.addSeedsBoard_(1, cof === -1 ? 0 : 1, position);
+                if (view) {
+                    seedViewAdditions.push([1, cof === -1 ? 0 : 1, position, true]);
+                }
                 if (remainingSeeds === 0 && this.board[player][position] === 1 && playerSide(cof)) {
                     let seedsStorage = this.board[0][position] + this.board[1][position];
-                    this.addSeeds_(seedsStorage, player, player === 0 ? -1 : this.board[0].length, view);
-                    this.removeSeeds_(0, position, view);
-                    this.removeSeeds_(1, position, view);
+                    this.addSeedsBoard_(seedsStorage, player, player === 0 ? -1 : this.board[0].length);
+                    if (view) {
+                        seedViewAdditions.push([seedsStorage, player, player === 0 ? -1 : this.board[0].length]);
+                    }
+                    this.removeSeedsBoard_(0, position);
+                    this.removeSeedsBoard_(1, position);
+                    if (view) {
+                        seedViewRemovals.push([0, position]);
+                        seedViewRemovals.push([1, position]);
+                    }
                     playerSeedGain += seedsStorage;
                 }
             }
         }
+        this.modifyMultipleSeedsView_(seedViewAdditions, seedViewRemovals);
 
         const ownStorage = (position === -1 && player === 0) || (position === this.board[0].length && player === 1);
         if (!ownStorage) this.currentToPlay = (this.currentToPlay + 1) % 2;
@@ -135,37 +151,58 @@ class Game {
         }
     }
 
-    addSeeds_(numberSeeds, player, position, view = true, fall = true) {
-        while (numberSeeds--) {
-            if (position === -1) this.storage[0]++;
-            else if (position === this.board[0].length) this.storage[1]++;
-            else this.board[player][position]++;
+    addSeedsBoard_(numberSeeds, player, position) {
+        if (numberSeeds <= 0) return;
+        if (position === -1) this.storage[0] += numberSeeds;
+        else if (position === this.board[0].length) this.storage[1] += numberSeeds;
+        else this.board[player][position] += numberSeeds;
+    }
 
-            if (!view) {
-                continue;
+    modifyMultipleSeedsView_(addParams, removeParams) {
+        if (addParams.length === 0) {
+            if (removeParams.length == 0) return;
+            const [head, ...tail] = removeParams;
+            this.removeSeedsView_(...head);
+            this.modifyMultipleSeedsView_(addParams, tail);
+        } else {
+            const [head, ...tail] = addParams;
+            const view = head[2];
+            this.addSeedsView_(...head);
+            if (view) {
+                setTimeout(() => this.modifyMultipleSeedsView_(tail, removeParams), 500);
+            } else {
+                this.modifyMultipleSeedsView_(tail, removeParams);
             }
-            const seed = document.createElement("div");
-            seed.classList.add("seed");
-            if (fall) {
-                seed.classList.add("fall");
-            }
-            const topPad = Math.round(Math.random() * 10);
-            const leftPad = Math.round(Math.random() * 10);
-            seed.style.top = topPad + "px";
-            seed.style.left = leftPad + "px";
-            const rotation = Math.round(Math.random() * 60) - 30;
-            seed.style.transform = " rotate(" + rotation + "deg)";
-            this.getHoleNode_(player, position).appendChild(seed);
-            if (view && fall) sleep(500);
         }
     }
 
-    removeSeeds_(player, position, view = true) {
+    addSeedsView_(numberSeeds, player, position, fall = true) {
+        if (numberSeeds === 0) return;
+
+        const seed = document.createElement("div");
+        seed.classList.add("seed");
+        if (fall) {
+            seed.classList.add("fall");
+        }
+        const topPad = Math.round(Math.random() * 10);
+        const leftPad = Math.round(Math.random() * 10);
+        seed.style.top = topPad + "px";
+        seed.style.left = leftPad + "px";
+        const rotation = Math.round(Math.random() * 60) - 30;
+        seed.style.transform = " rotate(" + rotation + "deg)";
+        this.getHoleNode_(player, position).appendChild(seed);
+
+        this.addSeedsView_(numberSeeds - 1, player, position, fall);
+    }
+
+    removeSeedsBoard_(player, position) {
         if (position === -1) this.storage[0] = 0;
         else if (position === this.board[0].length) this.storage[1] = 0;
         else this.board[player][position] = 0;
+    }
 
-        if (view) this.getHoleNode_(player, position).innerHTML = "";
+    removeSeedsView_(player, position) {
+        this.getHoleNode_(player, position).innerHTML = "";
     }
 
     loadView() {
@@ -182,7 +219,8 @@ class Game {
                 rows[row].appendChild(hole);
                 let numberSeeds = this.board[row][i];
                 this.board[row][i] = 0;
-                this.addSeeds_(numberSeeds, row, i, true, false);
+                this.addSeedsBoard_(numberSeeds, row, i);
+                this.addSeedsView_(numberSeeds, row, i, false);
             }
         }
     }

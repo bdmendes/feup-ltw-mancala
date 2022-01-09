@@ -1,13 +1,7 @@
-import { sleep } from "./utils.js";
-
 class Player {
     constructor(username, password) {
         this.username = username;
         this.password = password;
-    }
-
-    play(game) {
-        return;
     }
 }
 
@@ -18,16 +12,12 @@ class Computer extends Player {
     }
 
     async play(game) {
-        for (;;) {
-            if (game.isGameOver()) break;
-            console.log("hello0");
-            const bestMove = game.calculateBestPlay(this.depth)[0];
-            const finishedPlaying = game.play(0, bestMove);
-            console.log(finishedPlaying);
-            console.log(bestMove);
-            console.log("hello1");
-            if (finishedPlaying) break;
-            await sleep(2000);
+        if (game.isGameOver()) return;
+        const bestMove = game.calculateBestPlay(this.depth)[0];
+        const delay = 1000 + game.board[0][bestMove] * 500;
+        const finishedPlaying = game.play(0, bestMove);
+        if (!finishedPlaying) {
+            setTimeout(() => this.play(game), delay);
         }
     }
 }
