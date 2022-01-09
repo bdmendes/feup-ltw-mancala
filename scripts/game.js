@@ -93,7 +93,7 @@ class Game {
         const originalCof = cof;
         const playerSide = (currCof) => currCof === originalCof;
         this.removeSeedsBoard_(player, position);
-        if (view) this.removeSeedsView_(player, position);
+        this.removeSeedsView_(player, position);
 
         let playerSeedGain = 0;
         let seedViewAdditions = [];
@@ -104,35 +104,30 @@ class Game {
                 if (playerSide(cof)) {
                     remainingSeeds--;
                     this.addSeedsBoard_(1, player, position);
-                    if (view) {
-                        seedViewAdditions.push([1, player, position]);
-                    }
+                    seedViewAdditions.push([1, player, position]);
                     playerSeedGain++;
                 }
                 cof *= -1;
             } else {
                 remainingSeeds--;
                 this.addSeedsBoard_(1, cof === -1 ? 0 : 1, position);
-                if (view) {
-                    seedViewAdditions.push([1, cof === -1 ? 0 : 1, position]);
-                }
+                seedViewAdditions.push([1, cof === -1 ? 0 : 1, position]);
                 if (remainingSeeds === 0 && this.board[player][position] === 1 && playerSide(cof)) {
                     let seedsStorage = this.board[0][position] + this.board[1][position];
                     this.addSeedsBoard_(seedsStorage, player, player === 0 ? -1 : this.board[0].length);
-                    if (view) {
-                        seedViewAdditions.push([seedsStorage, player, player === 0 ? -1 : this.board[0].length]);
-                    }
+                    seedViewAdditions.push([seedsStorage, player, player === 0 ? -1 : this.board[0].length]);
                     this.removeSeedsBoard_(0, position);
                     this.removeSeedsBoard_(1, position);
-                    if (view) {
-                        seedViewRemovals.push([0, position]);
-                        seedViewRemovals.push([1, position]);
-                    }
+                    seedViewRemovals.push([0, position]);
+                    seedViewRemovals.push([1, position]);
                     playerSeedGain += seedsStorage;
                 }
             }
         }
-        this.modifyMultipleSeedsView_(seedViewAdditions, seedViewRemovals);
+
+        if (view) {
+            this.modifyMultipleSeedsView_(seedViewAdditions, seedViewRemovals);
+        }
 
         const ownStorage = (position === -1 && player === 0) || (position === this.board[0].length && player === 1);
         if (!ownStorage) this.currentToPlay = (this.currentToPlay + 1) % 2;

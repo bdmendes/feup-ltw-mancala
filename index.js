@@ -1,6 +1,7 @@
 import Game from "./scripts/game.js";
 import { Room, RemoteRoom } from "./scripts/room.js";
 import { Player, Computer, RemotePlayer } from "./scripts/player.js";
+import { joinGame, notifyMove, registerUser } from "./scripts/requests.js";
 
 function clearHoles() {
     for (let row of document.getElementsByClassName("hole-row")) {
@@ -64,4 +65,14 @@ window.onload = function () {
             });
         }, 1);
     });
+
+    // test requests
+    registerUser("bdmendes", "compacto")
+        .then((response) => response.json())
+        .then((json) => console.log(json))
+        .then(() => joinGame("300", "bdmendes", "compacto", 4, 4))
+        .then((response) => response.json())
+        .then((json) => notifyMove("bdmendes", "compacto", json.game, 1))
+        .then((response) => response.json())
+        .then((json) => console.log(json));
 };
