@@ -93,7 +93,7 @@ class Game {
         const originalCof = cof;
         const playerSide = (currCof) => currCof === originalCof;
         this.removeSeedsBoard_(player, position);
-        if (view) this.removeSeedsView_(player, position, view);
+        if (view) this.removeSeedsView_(player, position);
 
         let playerSeedGain = 0;
         let seedViewAdditions = [];
@@ -105,7 +105,7 @@ class Game {
                     remainingSeeds--;
                     this.addSeedsBoard_(1, player, position);
                     if (view) {
-                        seedViewAdditions.push([1, player, position, true]);
+                        seedViewAdditions.push([1, player, position]);
                     }
                     playerSeedGain++;
                 }
@@ -114,7 +114,7 @@ class Game {
                 remainingSeeds--;
                 this.addSeedsBoard_(1, cof === -1 ? 0 : 1, position);
                 if (view) {
-                    seedViewAdditions.push([1, cof === -1 ? 0 : 1, position, true]);
+                    seedViewAdditions.push([1, cof === -1 ? 0 : 1, position]);
                 }
                 if (remainingSeeds === 0 && this.board[player][position] === 1 && playerSide(cof)) {
                     let seedsStorage = this.board[0][position] + this.board[1][position];
@@ -166,13 +166,8 @@ class Game {
             this.modifyMultipleSeedsView_(addParams, tail);
         } else {
             const [head, ...tail] = addParams;
-            const view = head[2];
             this.addSeedsView_(...head);
-            if (view) {
-                setTimeout(() => this.modifyMultipleSeedsView_(tail, removeParams), 500);
-            } else {
-                this.modifyMultipleSeedsView_(tail, removeParams);
-            }
+            setTimeout(() => this.modifyMultipleSeedsView_(tail, removeParams), 500);
         }
     }
 
