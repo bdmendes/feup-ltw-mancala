@@ -80,11 +80,11 @@ value="3"
 /><label for="rdm">Random</label></div>`;
 
     switch (variable) {
-        case "sp":
+        case "single_player":
             return begin + "Computer" + end;
-        case "cr":
+        case "create":
             return begin + "Opponent" + end;
-        case "jn":
+        case "join":
             return `<span>Room code:</span><div>
         <input type="text" name="code" id="code" placeholder="Enter code" /></div>`;
 
@@ -96,7 +96,7 @@ value="3"
 function updateTab(tab) {
     let login = document.getElementById("login");
 
-    if (tab == "sp") {
+    if (tab == "single_player") {
         if (login != null) {
             login.remove();
         }
@@ -199,9 +199,9 @@ function getPopup(text) {
                 `<form>
             <div class="tab-selector">
               <div>
-                <input type="radio" name="mode" id="sp" value="sp" checked /><label onclick="updateTab(this.getAttribute('for'));" for="sp">Singleplayer</label><input type="radio" name="mode" id="jn" value="jn" /><label
-                onclick="updateTab(this.getAttribute('for'));" for="jn">Join Game</label><input type="radio" name="mode" id="cr" value="cr" /><label
-                onclick="updateTab(this.getAttribute('for'));" for="cr">Create Room</label>
+                <input type="radio" name="mode" id="single_player" value="single_player" checked /><label onclick="updateTab(this.getAttribute('for'));" for="single_player">Singleplayer</label><input type="radio" name="mode" id="join" value="join" /><label
+                onclick="updateTab(this.getAttribute('for'));" for="join">Join Game</label><input type="radio" name="mode" id="create" value="create" /><label
+                onclick="updateTab(this.getAttribute('for'));" for="create">Create Room</label>
               </div>
               </div>
               <div class="tab">
@@ -225,7 +225,7 @@ function getPopup(text) {
                 </div>
         
                 <div id="variable">` +
-                getVariable("sp") +
+                getVariable("single_player") +
                 `
                 </div>
                 </div>

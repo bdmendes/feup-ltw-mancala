@@ -1,3 +1,5 @@
+import { sleep } from "./utils.js";
+
 class Game {
     constructor(firstToPlay = 1, boardSize = 5, startSeeds = 6) {
         this.board = [new Array(boardSize).fill(startSeeds), new Array(boardSize).fill(startSeeds)];
@@ -23,7 +25,7 @@ class Game {
         return this.storage[0] > this.storage[1] ? 0 : 1;
     }
 
-    endGame() {
+    endGame_() {
         for (let row of [0, 1]) {
             for (let j = 0; j < this.board[0].length; j++) {
                 this.addSeeds_(this.board[row][j], row, row === 0 ? -1 : this.board[0].length);
@@ -49,40 +51,27 @@ class Game {
         let maxGain = -999999;
         let bestPosition = -1;
         for (let i = 0; i < game.board[0].length; i++) {
-            // console.log("Curr: " + curr + "; depth: " + depth + "; i: " + i);
             let newGame = Game.assembleGame(game.board, game.storage, game.currentToPlay);
             if (newGame.board[newGame.currentToPlay][i] === 0) {
                 continue;
             }
-            // console.log(JSON.parse(JSON.stringify(newGame.board)));
             let gain = 0;
             gain += newGame.play_(newGame.currentToPlay, i, false);
-            if (gain > 0) //console.log("Gain detected: " + gain);
-            if (newGame.currentToPlay === curr) {
-                // console.log("Playing again...");
-                gain += newGame.play_(newGame.currentToPlay, Game.calculateBestPlay_(newGame, depth)[0], false);
-            }
+            if (gain > 0)
+                if (newGame.currentToPlay === curr) {
+                    gain += newGame.play_(newGame.currentToPlay, Game.calculateBestPlay_(newGame, depth)[0], false);
+                }
             gain -= Game.calculateBestPlay_(newGame, depth - 1)[1];
             if (gain > maxGain) {
                 maxGain = gain;
                 bestPosition = i;
             }
         }
-         /* console.log(
-            "Final best gain for depth " +
-                depth +
-                "; player " +
-                game.currentToPlay +
-                ": position " +
-                bestPosition +
-                ", gain: " +
-                maxGain
-        ); */
         return [bestPosition, maxGain];
     }
 
     play(player, position) {
-        let lastPlayer = this.currentToPlay;
+        const lastPlayer = this.currentToPlay;
         if (player != this.currentToPlay) {
             alert("Player" + this.currentToPlay + "is not to play!");
             return false;
@@ -90,11 +79,11 @@ class Game {
         this.play_(player, position);
         if (this.isGameOver()) {
             alert("Game is over! Player " + this.getWinner() + " wins!");
-            this.endGame();
+            this.endGame_();
             return true;
         }
-
-        return lastPlayer === this.currentToPlay ? false : true;
+        console.log("DUDE");
+        return lastPlayer !== this.currentToPlay;
     }
 
     play_(player, position, view = true) {
@@ -152,10 +141,14 @@ class Game {
             else if (position === this.board[0].length) this.storage[1]++;
             else this.board[player][position]++;
 
-            if (!view) continue;
+            if (!view) {
+                continue;
+            }
             const seed = document.createElement("div");
             seed.classList.add("seed");
-            if (fall) seed.classList.add("fall");
+            if (fall) {
+                seed.classList.add("fall");
+            }
             const topPad = Math.round(Math.random() * 10);
             const leftPad = Math.round(Math.random() * 10);
             seed.style.top = topPad + "px";
@@ -163,6 +156,7 @@ class Game {
             const rotation = Math.round(Math.random() * 60) - 30;
             seed.style.transform = " rotate(" + rotation + "deg)";
             this.getHoleNode_(player, position).appendChild(seed);
+            if (view && fall) sleep(500);
         }
     }
 
@@ -176,8 +170,8 @@ class Game {
 
     loadView() {
         const storageHoles = document.getElementsByClassName("hole");
-        for (let storageHole of storageHoles){
-            storageHole.textContent = '';
+        for (let storageHole of storageHoles) {
+            storageHole.textContent = "";
         }
 
         const rows = document.getElementsByClassName("hole-row");

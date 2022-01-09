@@ -14,18 +14,18 @@ class Room {
                     if (row != 0) {
                         rows[row].children[hole].addEventListener("click", () => {
                             if (!this.game.play(row, hole)) {
-                                if(this.game.isGameOver()){
+                                if (this.game.isGameOver()) {
                                     this.unsetEventListeners();
                                 }
                                 return;
                             }
-                            if(this.game.isGameOver()){
+                            if (this.game.isGameOver()) {
                                 this.unsetEventListeners();
-                                return
+                                return;
                             }
                             setTimeout(() => {
                                 this.players[0].play(this.game);
-                                if(this.game.isGameOver()){
+                                if (this.game.isGameOver()) {
                                     this.unsetEventListeners();
                                     return;
                                 }
@@ -53,4 +53,10 @@ class Room {
     }
 }
 
-export default Room;
+class RemoteRoom extends Room {
+    constructor(game, player0) {
+        super(null, null, null);
+    }
+}
+
+export { Room, RemoteRoom };

@@ -1,53 +1,39 @@
+import { sleep } from "./utils.js";
+
 class Player {
     constructor(username, password) {
         this.username = username;
         this.password = password;
     }
+
+    play(game) {
+        return;
+    }
 }
 
 class Computer extends Player {
-    constructor(difficulty) {
+    constructor(depth) {
         super("computer", "computer");
-        switch (difficulty) {
-            case 2:
-                this.difficulty = difficulty;
-                break;
-            case 3:
-                this.difficulty = difficulty;
-                break;
-            case 1:
-            default:
-                this.difficulty = 1;
-                break;
-        };
+        this.depth = depth;
     }
 
     async play(game) {
-        while(!game.play(0, this.getPlay(game))){
-            if(game.isGameOver()){return;}
-            await this.sleep(1000);
+        for (;;) {
+            if (game.isGameOver()) break;
+            console.log("hello0");
+            const bestMove = game.calculateBestPlay(this.depth)[0];
+            const finishedPlaying = game.play(0, bestMove);
+            console.log(finishedPlaying);
+            console.log(bestMove);
+            console.log("hello1");
+            if (finishedPlaying) break;
+            await sleep(2000);
         }
-    }
-
-    async sleep(interval){return new Promise((resolve) => setTimeout(resolve, interval));}
-
-    getPlay(game){
-        if(this.difficulty == 3){
-            return game.calculateBestPlay(2)[0];
-        }
-        if(this.difficulty == 2){
-            return game.calculateBestPlay(1)[0];
-        }
-        
-        return Math.floor(Math.random() * game.board[0].length);
     }
 }
 
-
-class RemotePlayer extends Player{
-    constructor(username){
-
-    }
+class RemotePlayer extends Player {
+    constructor(username) {}
 }
 
-export {Player, Computer, RemotePlayer}; 
+export { Player, Computer, RemotePlayer };
