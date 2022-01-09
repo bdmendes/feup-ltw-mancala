@@ -57,10 +57,9 @@ class Game {
             }
             let gain = 0;
             gain += newGame.play_(newGame.currentToPlay, i, false);
-            if (gain > 0)
-                if (newGame.currentToPlay === curr) {
-                    gain += newGame.play_(newGame.currentToPlay, Game.calculateBestPlay_(newGame, depth)[0], false);
-                }
+            if (newGame.currentToPlay === curr) {
+                gain += newGame.play_(newGame.currentToPlay, Game.calculateBestPlay_(newGame, depth)[0], false);
+            }
             gain -= Game.calculateBestPlay_(newGame, depth - 1)[1];
             if (gain > maxGain) {
                 maxGain = gain;
@@ -90,14 +89,16 @@ class Game {
         if (remainingSeeds === 0) return 0;
 
         let cof = player === 0 ? -1 : 1;
+        let seedViewAdditions = [];
+        let seedViewRemovals = [];
         const originalCof = cof;
         const playerSide = (currCof) => currCof === originalCof;
         this.removeSeedsBoard_(player, position);
-        this.removeSeedsView_(player, position);
+        if (view) {
+            this.removeSeedsView_(player, position);
+        }
 
         let playerSeedGain = 0;
-        let seedViewAdditions = [];
-        let seedViewRemovals = [];
         while (remainingSeeds > 0) {
             position += cof;
             if (position === -1 || position === this.board[0].length) {

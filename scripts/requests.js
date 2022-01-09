@@ -15,9 +15,9 @@ export function registerUser(nick, password) {
     return post_("register", body);
 }
 
-export function joinGame(group, nick, password, size, initial) {
+export function joinGame(token, nick, password, size, initial) {
     const body = {
-        group: group,
+        group: token,
         nick: nick,
         password: password,
         size: size,

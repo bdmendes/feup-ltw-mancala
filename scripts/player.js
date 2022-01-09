@@ -1,5 +1,8 @@
 class Player {
     constructor(username, password) {
+        if (this.constructor === Player) {
+            throw new Error("Instantitate a concrete player");
+        }
         this.username = username;
         this.password = password;
     }
@@ -22,8 +25,8 @@ class Computer extends Player {
     }
 }
 
-class RemotePlayer extends Player {
-    constructor(username) {}
-}
+class HumanPlayer extends Player {}
 
-export { Player, Computer, RemotePlayer };
+class RemotePlayer extends Player {}
+
+export { Player, Computer, HumanPlayer, RemotePlayer };

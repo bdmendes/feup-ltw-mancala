@@ -40,81 +40,74 @@ function createPopup(id, title, content) {
 }
 
 function updateDifficulty(range) {
-    switch (range.value) {
-        case "1":
-            range.nextElementSibling.value = "Easy";
-            return;
-        case "2":
-            range.nextElementSibling.value = "Medium";
-            return;
-        case "3":
-            range.nextElementSibling.value = "Hard";
-            return;
-        default:
-            return;
-    }
+    const difficulties = ["Easy", "Medium", "Hard"];
+    const idx = parseInt(range.value) - 1;
+    range.nextElementSibling.value = difficulties[idx];
 }
 
-function getVariable(variable) {
-    const begin = `<span>Who starts?</span>
-    <div><input
-  type="radio"
-  name="user_turn"
-  id="user1"
-  value="1"
-  checked
-/>
-<label for="user1">You</label
-><input
-  type="radio"
-  name="user_turn"
-  id="user2"
-  value="0"
-/><label for="user2">`;
+function startOptionHTML(playMode) {
+    const whoStartsBegin = `<span>Who starts?</span>
+                      <div><input
+                    type="radio"
+                    name="user_turn"
+                    id="user1"
+                    value="1"
+                    checked
+                  />
+                  <label for="user1">You</label
+                  ><input
+                    type="radio"
+                    name="user_turn"
+                    id="user2"
+                    value="0"
+                  /><label for="user2">`;
+    const whoStartsEnd = `</label><input
+                type="radio"
+                name="user_turn"
+                id="rdm"
+                value="3"
+                /><label for="rdm">Random</label></div>`;
 
-    const end = `</label><input
-type="radio"
-name="user_turn"
-id="rdm"
-value="3"
-/><label for="rdm">Random</label></div>`;
-
-    switch (variable) {
+    switch (playMode) {
         case "single_player":
-            return begin + "Computer" + end;
-        case "create":
-            return begin + "Opponent" + end;
-        case "join":
-            return `<span>Room code:</span><div>
-        <input type="text" name="code" id="code" placeholder="Enter code" /></div>`;
-
+            return whoStartsBegin + "Computer" + whoStartsEnd;
+        case "multi_player":
+            return `<span>Room token</span><div>
+                    <input type="text" name="code" id="code" placeholder="Enter code" /></div>`;
         default:
-            return null;
+            return "";
     }
 }
 
 function updateTab(tab) {
     let login = document.getElementById("login");
+    const difficulty = document.getElementById("difficulty_option");
 
     if (tab == "single_player") {
-        if (login != null) {
+        if (login !== null) {
             login.remove();
         }
+        if (difficulty.style.display === "none") {
+            difficulty.style.display = "block";
+        }
     } else {
-        if (login == null) {
-            let login = document.createElement("div");
+        if (login === null) {
+            login = document.createElement("div");
             login.id = "login";
             login.innerHTML = `
-		<label for="username">Username:</label>
-		<input type="text" name="username" id="username" placeholder="Username"/>
-		<br>
-		<label for="password">Password:</label>
-		<input type="password" name="password" id="password" placeholder="Password"/>`;
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" placeholder="Username"/>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" placeholder="Password"/>`;
             document.getElementById("options").insertAdjacentElement("afterend", login);
+            if (difficulty.style.display !== "none") {
+                difficulty.style.display = "none";
+            }
         }
     }
 
-    document.getElementById("variable").innerHTML = getVariable(tab);
+    document.getElementById("variable").innerHTML = startOptionHTML(tab);
 }
 
 function getPopup(text) {
@@ -165,7 +158,6 @@ function getPopup(text) {
                 <td>19</td>
               </tr>
           </table>`;
-
             return createPopup("ranking", "Ranking", ranking);
         case "Instructions":
             const instructions = `<h2>Board</h2>
@@ -184,14 +176,14 @@ function getPopup(text) {
             and sew one in each of the next cavities and in its container
             counterclockwisely. If the last seed is placed in the container, the
             current player has the next turn. If the last seed falls into a
-            previously empty cavity controlled by the pltableayer, that seed and the
-            seeds in the oposite cavity are placed in its container.
+            previously empty cavity controlled by the player, that seed and the
+            seeds in the opposite cavity are placed in its container.
           </p>
           <h2>Ending</h2>
           <p>
             The game ends when a player can't sew due to lack of seeds. The
             other player places the seeds in its cavities in its container. Wins
-            the player with more seeds in .
+            the player with more seeds in.
           </p>`;
             return createPopup("instructions", "Instructions", instructions);
         case "Play Game!":
@@ -199,40 +191,40 @@ function getPopup(text) {
                 `<form>
             <div class="tab-selector">
               <div>
-                <input type="radio" name="mode" id="single_player" value="single_player" checked /><label onclick="updateTab(this.getAttribute('for'));" for="single_player">Singleplayer</label><input type="radio" name="mode" id="join" value="join" /><label
-                onclick="updateTab(this.getAttribute('for'));" for="join">Join Game</label><input type="radio" name="mode" id="create" value="create" /><label
-                onclick="updateTab(this.getAttribute('for'));" for="create">Create Room</label>
+                <input type="radio" name="mode" id="single_player" value="single_player" checked /><label onclick="updateTab(this.getAttribute('for'));" for="single_player">Singleplayer</label>
+                <input type="radio" name="mode" id="multi_player" value="multi_player" /><label
+                onclick="updateTab(this.getAttribute('for'));" for="multi_player">Multiplayer</label>
               </div>
               </div>
               <div class="tab">
                 <div id="options">
                 <label for="cavities">Cavities</label>
                 <div>
-                  <input type="range" name="cavities" id="cavities" value="6" min="4" max="8" onchange="this.nextElementSibling.value = this.value;"/>
+                  <input type="range" name="cavities" id="cavities" value="4" min="4" max="8" onchange="this.nextElementSibling.value = this.value;"/>
                   <output>6</output>
                 </div>
         
                 <label for="seeds">Seeds per cavity</label>
                 <div>
-                  <input type="range" name="seeds" id="seeds" value="4" min="4" max="10" onchange="this.nextElementSibling.value = this.value;"/>
+                  <input type="range" name="seeds" id="seeds" value="4" min="4" max="8" onchange="this.nextElementSibling.value = this.value;"/>
                 <output>4</output>
                 </div>
                 
-                <label for="difficulty">Difficulty</label>
-                <div>
-                  <input type="range" name="difficulty" id="difficulty" value="1" min="1" max="3" onchange="updateDifficulty(this);"/>
-                  <output>Easy</output>
+                <div id="difficulty_option" style="display: block;">
+                    <label for="difficulty">Difficulty</label>
+                    <div>
+                    <input type="range" name="difficulty" id="difficulty" value="1" min="1" max="3" onchange="updateDifficulty(this);"/>
+                    <output>Easy</output>
+                    </div>
                 </div>
         
                 <div id="variable">` +
-                getVariable("single_player") +
+                startOptionHTML("single_player") +
                 `
                 </div>
                 </div>
                 <button id="play" type="button">Play!</button>
               </div>
-            
-              
               </form>`;
             return createPopup("settings", "Start Game", tabs);
         default:
@@ -244,10 +236,9 @@ function showPopup(text) {
     for (let popup of document.getElementsByClassName("popup-container")) {
         popup.remove();
     }
-
     blurGameContainer();
-
     document.getElementsByTagName("nav")[0].insertAdjacentElement("afterend", getPopup(text));
+    console.log(text);
 }
 
 function hidePopup(element) {

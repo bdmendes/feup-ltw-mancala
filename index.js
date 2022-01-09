@@ -1,6 +1,6 @@
 import Game from "./scripts/game.js";
 import { Room, RemoteRoom } from "./scripts/room.js";
-import { Player, Computer, RemotePlayer } from "./scripts/player.js";
+import { Player, Computer, HumanPlayer, RemotePlayer } from "./scripts/player.js";
 import { joinGame, notifyMove, registerUser } from "./scripts/requests.js";
 
 function clearHoles() {
@@ -19,17 +19,7 @@ function setupGame(form) {
         difficulty = parseInt(form.difficulty.value);
         is_turn = parseInt(form.user_turn.value);
     } else {
-        if (mode === "join") {
-            code = form.code.value;
-        }
-        if (mode === "create") {
-            if (form.is_turn !== undefined) {
-                is_turn = parseInt(form.user_turn.value);
-                if (is_turn == 3) {
-                    is_turn = Math.floor(Math.random() * 2);
-                }
-            }
-        }
+        code = form.code.value;
         username = form.username.value;
         password = form.password.value;
     }
@@ -37,13 +27,14 @@ function setupGame(form) {
     seeds = parseInt(form.seeds.value);
 
     /* Create entities */
-    let user0, user1;
     if (mode == "single_player") {
-        user0 = new Computer(difficulty);
-        user1 = new Player("", "");
-        window.room = new Room(new Game(is_turn, cavities, seeds), user0, user1);
+        window.room = new Room(
+            new Game(is_turn, cavities, seeds),
+            new Computer(difficulty),
+            new HumanPlayer("guest", "")
+        );
     } else {
-        user1 = new Player(username, password);
+        let user1 = new Player(username, password);
         window.room = new RemoteRoom(null, null);
     }
 
@@ -67,12 +58,12 @@ window.onload = function () {
     });
 
     // test requests
-    registerUser("bdmendes", "compacto")
+    /*     registerUser("bdmendes", "compacto")
         .then((response) => response.json())
         .then((json) => console.log(json))
         .then(() => joinGame("300", "bdmendes", "compacto", 4, 4))
         .then((response) => response.json())
         .then((json) => notifyMove("bdmendes", "compacto", json.game, 1))
         .then((response) => response.json())
-        .then((json) => console.log(json));
+        .then((json) => console.log(json)); */
 };
