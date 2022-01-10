@@ -126,7 +126,11 @@
     border-radius: 5px;
 }
 
-#login * {
+#login input {
     display: block;
-    margin: 10px auto;
+    margin-top: 10px;
+}
+
+#login {
+    margin-top: 10px;
 }

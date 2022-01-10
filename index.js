@@ -2,7 +2,6 @@ import Game from "./scripts/game.js";
 import { RemoteRoom, ComputerRoom } from "./scripts/room.js";
 import { Computer, LocalPlayer, RemotePlayer } from "./scripts/player.js";
 import { joinGame, notifyMove, registerUser } from "./scripts/requests.js";
-import { showPopup } from "./scripts/popups.js";
 
 function clearHoles() {
     for (let row of document.getElementsByClassName("hole-row")) {
@@ -33,19 +32,13 @@ function setupGame(form) {
     /* Create entities */
     if (mode == "single_player") {
         window.room = new ComputerRoom(new Game(turn, cavities, seeds), new LocalPlayer("guest", ""), difficulty);
-        window.room.enterGame();
+        window.room.enterGameView();
     } else {
         window.room = new RemoteRoom(new Game(0, cavities, seeds), new RemotePlayer(username, password), code);
     }
 }
 
 window.onload = function () {
-    document.getElementById("instructions").addEventListener("click", () => {
-        showPopup("instructions");
-    });
-    document.getElementById("ranking").addEventListener("click", () => {
-        showPopup("ranking");
-    });
     document.getElementById("game_button").addEventListener("click", () => {
         showPopup("game_button");
         document.getElementById("play").addEventListener("click", () => {

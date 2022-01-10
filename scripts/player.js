@@ -7,6 +7,7 @@ class Player {
         }
         this.username = username;
     }
+    play() {}
 }
 
 class Computer extends Player {

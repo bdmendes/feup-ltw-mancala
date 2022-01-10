@@ -48,6 +48,8 @@ function updateDifficulty(range) {
     range.nextElementSibling.value = difficulties[idx];
 }
 
+window.updateDifficulty = updateDifficulty;
+
 function startOptionHTML(playMode) {
     const player1Button = `<input type="radio" name="user_turn" id="player1" value="1" checked/>
       <label for="player1">You</label>`;
@@ -103,6 +105,8 @@ function updateTab(tab) {
     document.getElementById("who_starts").innerHTML = startOptionHTML(tab);
 }
 
+window.updateTab = updateTab;
+
 function getPopup(id) {
     switch (id) {
         case "ranking":
@@ -139,7 +143,6 @@ function getPopup(id) {
                     .then((json) => {
                         if (json === undefined) return;
                         const ranking = json.ranking;
-                        console.log(ranking);
                         for (let i = 0; i < 10 && i < ranking.length; i++) {
                             const row = document.createElement("tr");
                             row.innerHTML =
@@ -237,6 +240,8 @@ export function showPopup(id) {
     blurGameContainer();
     document.getElementsByTagName("nav")[0].insertAdjacentElement("afterend", getPopup(id));
 }
+
+window.showPopup = showPopup;
 
 function hidePopup(element) {
     element.remove();

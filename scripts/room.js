@@ -54,7 +54,7 @@ class Room {
                     this.putMessage("You cannot play from an empty hole!");
                     return;
                 }
-                const delay = numberSeeds * 500;
+                const delay = 1000 + numberSeeds * 500;
                 const finishedPlaying = this.game.play(1, hole);
                 this.putMessage("Moving!");
                 setTimeout(() => {
@@ -75,7 +75,7 @@ class Room {
             this.putMessage("The opponent is starting!");
             setTimeout(() => {
                 this.players[0].play(this);
-            }, 2000);
+            }, 1000);
         } else {
             this.putMessage("Make the first move. Click one of your cavities!");
         }
@@ -85,7 +85,7 @@ class Room {
         this.left = true;
     }
 
-    enterGame() {
+    enterGameView() {
         window.hidePopup(document.getElementById("settings"));
         window.room.game.loadView();
         window.room.setEventListeners();
@@ -125,6 +125,11 @@ class RemoteRoom extends Room {
     setupUpdate() {
         this.eventSource = openEventSource(this.players[1].username, this.gameId);
         this.eventSource.onmessage = function (event) {
+            if (!window.room.ready) {
+                alert("hello");
+                window.room.ready = true;
+                window.room.enterGameView();
+            }
             console.log(event.data);
         };
     }
