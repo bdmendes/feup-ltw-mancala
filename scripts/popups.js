@@ -64,7 +64,7 @@ function startOptionHTML(playMode) {
     } else {
         return `<span>Room token</span>
                 <div>
-                  <input type="text" name="code" id="code" placeholder="Enter code" />
+                  <input type="text" name="code" id="code" placeholder="Enter room token" />
                 </div>`;
     }
 }
@@ -86,11 +86,11 @@ function updateTab(tab) {
             login.id = "login";
             login.innerHTML = `
             <label for="username">Username</label>
-            <input type="text" name="username" id="username" placeholder="Username"/>
+            <input type="text" name="username" id="username" placeholder="Enter your username"/>
             <br>
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" placeholder="Password"/>
-            <h6 id="login_status" style="margin-top: 20px; text-align:center;">Data to be sent to the remote server</h6>`;
+            <input type="password" name="password" id="password" placeholder="Enter your password"/>
+            <h6 id="login_status" style="margin-top: 20px; text-align:center;"></h6>`;
             document.getElementById("options").insertAdjacentElement("afterend", login);
             if (difficulty.style.display !== "none") {
                 difficulty.style.display = "none";

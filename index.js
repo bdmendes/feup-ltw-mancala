@@ -32,21 +32,17 @@ function setupGame(form) {
     /* Create entities */
     if (mode == "single_player") {
         window.room = new ComputerRoom(new Game(turn, cavities, seeds), new LocalPlayer("guest", ""), difficulty);
+        window.room.enterGame();
     } else {
-        window.room = new RemoteRoom(new Game(0, cavities, seeds), new RemotePlayer());
+        window.room = new RemoteRoom(new Game(0, cavities, seeds), new RemotePlayer(username, password), code);
     }
-
-    /* Start */
-    window.hidePopup(document.getElementById("settings"));
-    window.room.game.loadView();
-    window.room.setEventListeners();
 }
 
 window.onload = function () {
     document.getElementById("game_button").addEventListener("click", () => {
         setTimeout(() => {
             document.getElementById("play").addEventListener("click", () => {
-                if (window.room != null) {
+                if (window.room != null && window.room.ready) {
                     if (
                         !window.confirm(
                             "Current game progress will be lost. Are you sure you want to leave and create a new game?"

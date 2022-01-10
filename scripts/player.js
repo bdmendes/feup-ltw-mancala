@@ -1,7 +1,7 @@
 import { registerUser } from "./requests.js";
 
 class Player {
-    constructor(username, password) {
+    constructor(username) {
         if (this.constructor === Player) {
             throw new Error("Instantitate a concrete player");
         }
@@ -39,15 +39,22 @@ class RemotePlayer extends Player {
         this.password = password;
     }
 
-    login() {
-        registerUser(this.username, this.password)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`Could not register user`);
+    login(room) {
+        const statusMessage = document.getElementById("login_status");
+        statusMessage.textContent = "Logging in...";
+        registerUser(this.username, this.password).then(
+            (response) => {
+                statusMessage.textContent = response.ok
+                    ? "Login successful, joining a game..."
+                    : "User registered with a different password";
+                if (response.ok) {
+                    room.enterGame();
                 }
-                return response.json();
-            })
-            .then((json) => console.log(json));
+            },
+            () => {
+                statusMessage.textContent = "Network error";
+            }
+        );
     }
 }
 

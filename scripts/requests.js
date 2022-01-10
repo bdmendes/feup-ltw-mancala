@@ -49,6 +49,6 @@ export function getRanking() {
     return post_("ranking");
 }
 
-export function openEventSource() {
-    return new EventSource(twServer + "/update");
+export function openEventSource(nick, game) {
+    return new EventSource(twServer + "/update?nick=" + nick + "&game=" + game);
 }

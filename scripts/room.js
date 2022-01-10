@@ -1,4 +1,5 @@
-import { Computer, LocalPlayer, RemotePlayer } from "./player.js";
+import { Computer, LocalPlayer, Player, RemotePlayer } from "./player.js";
+import { joinGame, leaveGame, openEventSource } from "./requests.js";
 
 class Room {
     constructor(game, player0, player1) {
@@ -9,7 +10,7 @@ class Room {
         this.players = [player0, player1];
         this.messageObject = document.getElementById("message");
         this.left = false;
-        document.getElementById("game_info").textContent = player0.username + " vs " + player1.username;
+        this.ready = false;
         document.getElementById("board").style.display = "flex";
         document.getElementById("game_button").textContent = "Leave";
     }
@@ -53,7 +54,7 @@ class Room {
                     this.putMessage("You cannot play from an empty hole!");
                     return;
                 }
-                const delay = 1000 + numberSeeds * 500;
+                const delay = numberSeeds * 500;
                 const finishedPlaying = this.game.play(1, hole);
                 this.putMessage("Moving!");
                 setTimeout(() => {
@@ -83,6 +84,12 @@ class Room {
     leave() {
         this.left = true;
     }
+
+    enterGame() {
+        window.hidePopup(document.getElementById("settings"));
+        window.room.game.loadView();
+        window.room.setEventListeners();
+    }
 }
 
 class RemoteRoom extends Room {
@@ -90,9 +97,49 @@ class RemoteRoom extends Room {
         if (!(player instanceof RemotePlayer)) {
             throw new Error("Player 0 must be a remote player");
         }
-        player.login();
-        super(game, player, null);
+        super(game, new RemotePlayer("opponent", "unknown"), player);
         this.token = token;
+        player.login(this);
+    }
+
+    enterGame() {
+        joinGame(
+            this.token,
+            this.players[1].username,
+            this.players[1].password,
+            this.game.board.length,
+            this.game.board[0][0]
+        ).then(async function (response) {
+            const statusObject = document.getElementById("login_status");
+            if (response.ok) {
+                statusObject.textContent = "Game joined! Waiting for an opponent...";
+                const json = await response.json();
+                window.room.gameId = json.game;
+                window.room.setupUpdate();
+            } else {
+                statusObject.textContent = "Error joining a game! Try again later";
+            }
+        });
+    }
+
+    setupUpdate() {
+        this.eventSource = openEventSource(this.players[1].username, this.gameId);
+        this.eventSource.onmessage = function (event) {
+            console.log(event.data);
+        };
+    }
+
+    closeSource() {
+        this.eventSource.close();
+    }
+
+    leave() {
+        leaveGame(this.players[1].username, this.players[1].password, this.gameId).then((response) => {
+            if (response.ok) {
+                window.room.closeSource();
+            }
+        });
+        super.leave();
     }
 }
 
@@ -102,6 +149,16 @@ class ComputerRoom extends Room {
             throw new Error("Player 0 must be a local player");
         }
         super(game, new Computer(difficulty), player);
+        document.getElementById("game_info").textContent = "Computer vs Local Player";
+        this.ready = true;
+    }
+
+    enterGame() {
+        super.enterGame();
+    }
+
+    leave() {
+        super.leave();
     }
 }
 
