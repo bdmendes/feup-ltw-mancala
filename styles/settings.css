@@ -3,7 +3,7 @@
 /* Style */
 
 .tab-selector label,
-#variable label {
+#who_starts label {
     border-color: transparent;
 }
 
@@ -12,7 +12,7 @@
     background-color: var(--champagne);
 }
 
-#variable input[type="radio"]:checked + label,
+#who_starts input[type="radio"]:checked + label,
 #play {
     background-color: transparent;
     border-color: black;
@@ -36,7 +36,7 @@
 }
 
 .tab-selector label,
-#variable label {
+#who_starts label {
     cursor: pointer;
     border-style: solid;
     display: inline-flex;
@@ -97,16 +97,16 @@
     margin-top: 5px;
 }
 
-#variable {
+#who_starts {
     height: 60px;
     display: block !important;
 }
 
-#variable input[type="text"] {
+#who_starts input[type="text"] {
     margin-top: 10px;
 }
 
-#variable label {
+#who_starts label {
     margin-top: 5px;
     width: 85px;
     padding: 2px;
@@ -130,14 +130,4 @@
 #login * {
     display: block;
     margin: 10px auto;
-}
-
-#login label {
-    width: 80px !important;
-}
-
-#login input[type="text"],
-#login input[type="password"] {
-    margin-left: 5px;
-    width: 150px;
 }

@@ -1,6 +1,6 @@
 import Game from "./scripts/game.js";
 import { RemoteRoom, ComputerRoom } from "./scripts/room.js";
-import { Computer, HumanPlayer, RemotePlayer } from "./scripts/player.js";
+import { Computer, LocalPlayer, RemotePlayer } from "./scripts/player.js";
 import { joinGame, notifyMove, registerUser } from "./scripts/requests.js";
 
 function clearHoles() {
@@ -14,19 +14,12 @@ function clearHoles() {
 function setupGame(form) {
     /* Parse form */
     const mode = form.mode.value;
-    let difficulty, turn, code, username, password, cavities, seeds, firstToPlay;
+    let difficulty, turn, code, username, password, cavities, seeds;
     if (mode === "single_player") {
         difficulty = parseInt(form.difficulty.value);
         turn = parseInt(form.user_turn.value);
-        switch (turn) {
-            case 1:
-                firstToPlay = 0;
-                break;
-            case 2:
-                firstToPlay = 1;
-                break;
-            default:
-                firstToPlay = Math.floor(Math.random() * 2) % 2;
+        if (turn === -1) {
+            turn = Math.floor(Math.random() * 2);
         }
     } else {
         code = form.code.value;
@@ -38,14 +31,9 @@ function setupGame(form) {
 
     /* Create entities */
     if (mode == "single_player") {
-        window.room = new ComputerRoom(
-            new Game(firstToPlay, cavities, seeds),
-            new HumanPlayer("guest", ""),
-            difficulty
-        );
+        window.room = new ComputerRoom(new Game(turn, cavities, seeds), new LocalPlayer("guest", ""), difficulty);
     } else {
-        let user1 = new Player(username, password);
-        window.room = new RemoteRoom(null, null);
+        window.room = new RemoteRoom(new Game(0, cavities, seeds), new RemotePlayer());
     }
 
     /* Start */
@@ -66,8 +54,6 @@ window.onload = function () {
                     ) {
                         return;
                     }
-                }
-                if (window.room != null) {
                     window.room.leave();
                 }
                 clearHoles();
@@ -75,7 +61,6 @@ window.onload = function () {
             });
         }, 1);
     });
-
     // test requests
     /*     registerUser("bdmendes", "compacto")
         .then((response) => response.json())
@@ -86,3 +71,7 @@ window.onload = function () {
         .then((response) => response.json())
         .then((json) => console.log(json)); */
 };
+/* window.onbeforeunload = function () {
+    return "Do you really want to exit the app? Current game progress will be lost.";
+};
+ */

@@ -1,16 +1,17 @@
+import { registerUser } from "./requests.js";
+
 class Player {
     constructor(username, password) {
         if (this.constructor === Player) {
             throw new Error("Instantitate a concrete player");
         }
         this.username = username;
-        this.password = password;
     }
 }
 
 class Computer extends Player {
     constructor(depth) {
-        super("computer", "computer");
+        super("computer");
         this.depth = depth;
     }
 
@@ -30,8 +31,24 @@ class Computer extends Player {
     }
 }
 
-class HumanPlayer extends Player {}
+class LocalPlayer extends Player {}
 
-class RemotePlayer extends Player {}
+class RemotePlayer extends Player {
+    constructor(username, password) {
+        super(username);
+        this.password = password;
+    }
 
-export { Player, Computer, HumanPlayer, RemotePlayer };
+    login() {
+        registerUser(this.username, this.password)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Could not register user`);
+                }
+                return response.json();
+            })
+            .then((json) => console.log(json));
+    }
+}
+
+export { Player, Computer, LocalPlayer, RemotePlayer };

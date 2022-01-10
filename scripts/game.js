@@ -75,10 +75,6 @@ class Game {
             return false;
         }
         this.play_(player, position);
-        if (this.isGameOver()) {
-            this.endGame_();
-            return true;
-        }
         return lastPlayer !== this.currentToPlay;
     }
 

@@ -47,36 +47,25 @@ function updateDifficulty(range) {
 }
 
 function startOptionHTML(playMode) {
-    const whoStartsBegin = `<span>Who starts?</span>
-                      <div><input
-                    type="radio"
-                    name="user_turn"
-                    id="user1"
-                    value="1"
-                    checked
-                  />
-                  <label for="user1">You</label
-                  ><input
-                    type="radio"
-                    name="user_turn"
-                    id="user2"
-                    value="0"
-                  /><label for="user2">`;
-    const whoStartsEnd = `</label><input
-                type="radio"
-                name="user_turn"
-                id="rdm"
-                value="3"
-                /><label for="rdm">Random</label></div>`;
+    const player1Button = `<input type="radio" name="user_turn" id="player1" value="1" checked/>
+      <label for="player1">You</label>`;
+    const player0Button = (name) =>
+        `<input type="radio" name="user_turn" id="player0" value="0"/>
+      <label for="player0">` +
+        name +
+        `</label>`;
+    const randomButton = `<input type="radio" name="user_turn" id="random" value="-1"/>
+      <label for="random">Random</label>`;
 
-    switch (playMode) {
-        case "single_player":
-            return whoStartsBegin + "Computer" + whoStartsEnd;
-        case "multi_player":
-            return `<span>Room token</span><div>
-                    <input type="text" name="code" id="code" placeholder="Enter code" /></div>`;
-        default:
-            return "";
+    if (playMode === "single_player") {
+        return (
+            "<span>Who starts?</span>" + "<div>" + player1Button + player0Button("Computer") + randomButton + "</div>"
+        );
+    } else {
+        return `<span>Room token</span>
+                <div>
+                  <input type="text" name="code" id="code" placeholder="Enter code" />
+                </div>`;
     }
 }
 
@@ -96,11 +85,12 @@ function updateTab(tab) {
             login = document.createElement("div");
             login.id = "login";
             login.innerHTML = `
-            <label for="username">Username:</label>
+            <label for="username">Username</label>
             <input type="text" name="username" id="username" placeholder="Username"/>
             <br>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" placeholder="Password"/>`;
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password"/>
+            <h6 id="login_status" style="margin-top: 20px; text-align:center;">Data to be sent to the remote server</h6>`;
             document.getElementById("options").insertAdjacentElement("afterend", login);
             if (difficulty.style.display !== "none") {
                 difficulty.style.display = "none";
@@ -108,7 +98,7 @@ function updateTab(tab) {
         }
     }
 
-    document.getElementById("variable").innerHTML = startOptionHTML(tab);
+    document.getElementById("who_starts").innerHTML = startOptionHTML(tab);
 }
 
 function getPopup(id) {
@@ -219,7 +209,7 @@ function getPopup(id) {
                     </div>
                 </div>
         
-                <div id="variable">` +
+                <div id="who_starts">` +
                 startOptionHTML("single_player") +
                 `
                 </div>
