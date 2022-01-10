@@ -1,6 +1,6 @@
 import Game from "./scripts/game.js";
-import { Room, RemoteRoom } from "./scripts/room.js";
-import { Player, Computer, HumanPlayer, RemotePlayer } from "./scripts/player.js";
+import { RemoteRoom, ComputerRoom } from "./scripts/room.js";
+import { Computer, HumanPlayer, RemotePlayer } from "./scripts/player.js";
 import { joinGame, notifyMove, registerUser } from "./scripts/requests.js";
 
 function clearHoles() {
@@ -14,10 +14,20 @@ function clearHoles() {
 function setupGame(form) {
     /* Parse form */
     const mode = form.mode.value;
-    let difficulty, is_turn, code, username, password, cavities, seeds;
+    let difficulty, turn, code, username, password, cavities, seeds, firstToPlay;
     if (mode === "single_player") {
         difficulty = parseInt(form.difficulty.value);
-        is_turn = parseInt(form.user_turn.value);
+        turn = parseInt(form.user_turn.value);
+        switch (turn) {
+            case 1:
+                firstToPlay = 0;
+                break;
+            case 2:
+                firstToPlay = 1;
+                break;
+            default:
+                firstToPlay = Math.floor(Math.random() * 2) % 2;
+        }
     } else {
         code = form.code.value;
         username = form.username.value;
@@ -28,10 +38,10 @@ function setupGame(form) {
 
     /* Create entities */
     if (mode == "single_player") {
-        window.room = new Room(
-            new Game(is_turn, cavities, seeds),
-            new Computer(difficulty),
-            new HumanPlayer("guest", "")
+        window.room = new ComputerRoom(
+            new Game(firstToPlay, cavities, seeds),
+            new HumanPlayer("guest", ""),
+            difficulty
         );
     } else {
         let user1 = new Player(username, password);
@@ -39,27 +49,26 @@ function setupGame(form) {
     }
 
     /* Start */
+    window.hidePopup(document.getElementById("settings"));
     window.room.game.loadView();
     window.room.setEventListeners();
-    window.hidePopup(document.getElementById("settings"));
-    if (!is_turn) {
-        window.room.players[0].play(window.room.game);
-    }
 }
 
 window.onload = function () {
-    document.getElementById("startGame").addEventListener("click", () => {
+    document.getElementById("game_button").addEventListener("click", () => {
         setTimeout(() => {
             document.getElementById("play").addEventListener("click", () => {
-                console.log(window.room);
                 if (window.room != null) {
                     if (
                         !window.confirm(
-                            "Current game progress will be lost. Are you sure you want to create a new game?"
+                            "Current game progress will be lost. Are you sure you want to leave and create a new game?"
                         )
                     ) {
                         return;
                     }
+                }
+                if (window.room != null) {
+                    window.room.leave();
                 }
                 clearHoles();
                 setupGame(document.forms[0]);

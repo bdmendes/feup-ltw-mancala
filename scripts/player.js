@@ -14,13 +14,18 @@ class Computer extends Player {
         this.depth = depth;
     }
 
-    async play(game) {
-        if (game.isGameOver()) return;
-        const bestMove = game.calculateBestPlay(this.depth)[0];
-        const delay = 1000 + game.board[0][bestMove] * 500;
-        const finishedPlaying = game.play(0, bestMove);
+    play(room) {
+        if (room.game.isGameOver()) return;
+        room.putMessage("Computer is moving...");
+        const bestMove = room.game.calculateBestPlay(this.depth)[0];
+        const delay = 1000 + room.game.board[0][bestMove] * 500;
+        const finishedPlaying = room.game.play(0, bestMove);
         if (!finishedPlaying) {
-            setTimeout(() => this.play(game), delay);
+            setTimeout(() => {
+                this.play(room);
+            }, delay);
+        } else {
+            setTimeout(() => room.notifyMoveEnd(), delay);
         }
     }
 }

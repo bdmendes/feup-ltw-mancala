@@ -18,18 +18,21 @@
 
     <body>
         <nav>
-            <div>
-                <div name="ranking" onclick="showPopup(this.textContent)">Ranking</div>
+            <div id="ranking">
+                <div onclick="showPopup('ranking')">Ranking</div>
             </div>
             <div id="center">
-                <img src="img/big_logo.png" alt="Logo" />
-                <div id='startGame' name="startGame" onclick="showPopup(this.textContent);">Play Game!</div>
+                <img id="logo" src="img/big_logo.png" alt="Logo" />
+                <div id='game_button' name="game_button" onclick="showPopup('game_button');">Play Game</div>
             </div>
-            <div>
-                <div name="instructions" onclick="showPopup(this.textContent);">Instructions</div>
+            <div id="instructions">
+                <div onclick="showPopup('instructions');">Instructions</div>
             </div>
         </nav>
         <div id="game-container" class="center" style="flex-direction: column; justify-content: center;">
+            <div id="game_info">
+                No game set
+            </div>
             <div id="board">
                 <div class="storage center">
                     <div class="hole"></div>

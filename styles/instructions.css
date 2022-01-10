@@ -1,13 +1,8 @@
-#instructions .popup-content h2{
-  padding-top: 10px
+#instructions .popup-content h2 {
+    padding-top: 10px;
 }
 
 /* Layout */
 #instructions .popup-content {
-  padding: 0 10px 0 10px;
-}
-
-.popup-content{
-  max-height: 450px;
-  overflow-y: auto;
+    padding: 0 10px 0 10px;
 }

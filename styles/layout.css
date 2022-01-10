@@ -28,6 +28,16 @@ html {
     color: lightblue;
 }
 
+#game_info {
+    background-color: var(--dark-brown);
+    border: 3px solid darkslategrey;
+    border-radius: 5px;
+    font-family: var(--popup-font);
+    color: lightblue;
+    font-size: 30px;
+    padding: 10px;
+}
+
 .fall {
     animation: falling 2s;
 }

@@ -72,12 +72,10 @@ class Game {
     play(player, position) {
         const lastPlayer = this.currentToPlay;
         if (player !== this.currentToPlay) {
-            alert("Player" + this.currentToPlay + " is not to play!");
             return false;
         }
         this.play_(player, position);
         if (this.isGameOver()) {
-            alert("Game is over! Player " + this.getWinner() + " wins!");
             this.endGame_();
             return true;
         }

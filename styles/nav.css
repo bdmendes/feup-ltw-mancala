@@ -2,51 +2,58 @@
 
 /* Style */
 nav {
-  background-color: var(--wine);
-  font-family: var(--nav-font);
-  font-size: 2em;
-  border-color: black;
+    background-color: var(--wine);
+    font-family: var(--nav-font);
+    font-size: 2em;
+    border-color: black;
 }
 
-#center div{
-  background-color: var(--wine);
+#center div {
+    background-color: var(--wine);
 }
 
-nav div div:hover, #center div:hover{
-  background-color: var(--champagne);
+nav div div:hover,
+#center div:hover {
+    background-color: var(--champagne);
 }
 
 /* Layout */
 nav {
-  display: flex;
-  height: 70px;
-  justify-content: center;
-  border-bottom-style: solid;
-  border-bottom-width: 3px;
+    display: flex;
+    height: 70px;
+    justify-content: center;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
 }
 
 nav * {
-  flex: 1 1 auto;
-  margin-top: 5px;
-  padding: 10px 0;
-  text-align: center;
+    flex: 1 1 auto;
+    margin-top: 5px;
+    padding: 10px 0;
+    text-align: center;
 }
 
 nav div * {
-  user-select: none;
-  cursor: pointer;
-  padding: 5px;
-  margin: 0 auto;
-  width: 150px;
-  border-radius: 5px;
+    user-select: none;
+    cursor: pointer;
+    padding: 5px;
+    margin: 0 auto;
+    width: 150px;
+    border-radius: 5px;
 }
 
 #center {
-  z-index: 1;
-  padding-top: 10px;
+    z-index: 1;
+    padding-top: 10px;
 }
 
 #center img {
-  cursor:unset;
-  margin-bottom: 15px;
+    cursor: unset;
+    margin-bottom: 15px;
+}
+
+@media only screen and (max-height: 800px) {
+    #logo {
+        display: none;
+    }
 }

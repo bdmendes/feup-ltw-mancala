@@ -15,6 +15,7 @@ function createPopup(id, title, content) {
     const close = document.createElement("span");
     close.textContent = "Close";
     close.id = "close";
+    close.style.marginBottom = "5px";
     close.onclick = function () {
         hidePopup(popupContainer);
     };
@@ -110,9 +111,9 @@ function updateTab(tab) {
     document.getElementById("variable").innerHTML = startOptionHTML(tab);
 }
 
-function getPopup(text) {
-    switch (text) {
-        case "Ranking":
+function getPopup(id) {
+    switch (id) {
+        case "ranking":
             const ranking = `<table>
               <tr>
                 <th scope="col">Username</th>
@@ -159,7 +160,7 @@ function getPopup(text) {
               </tr>
           </table>`;
             return createPopup("ranking", "Ranking", ranking);
-        case "Instructions":
+        case "instructions":
             const instructions = `<h2>Board</h2>
           <p>
             There are 2 rows of cavities and 2 containers. Each player controls
@@ -186,7 +187,7 @@ function getPopup(text) {
             the player with more seeds in.
           </p>`;
             return createPopup("instructions", "Instructions", instructions);
-        case "Play Game!":
+        case "game_button":
             const tabs =
                 `<form>
             <div class="tab-selector">
@@ -201,12 +202,12 @@ function getPopup(text) {
                 <label for="cavities">Cavities</label>
                 <div>
                   <input type="range" name="cavities" id="cavities" value="4" min="4" max="8" onchange="this.nextElementSibling.value = this.value;"/>
-                  <output>6</output>
+                  <output>4</output>
                 </div>
         
                 <label for="seeds">Seeds per cavity</label>
                 <div>
-                  <input type="range" name="seeds" id="seeds" value="4" min="4" max="8" onchange="this.nextElementSibling.value = this.value;"/>
+                  <input type="range" name="seeds" id="seeds" value="4" min="4" max="6" onchange="this.nextElementSibling.value = this.value;"/>
                 <output>4</output>
                 </div>
                 
@@ -232,13 +233,12 @@ function getPopup(text) {
     }
 }
 
-function showPopup(text) {
+function showPopup(id) {
     for (let popup of document.getElementsByClassName("popup-container")) {
         popup.remove();
     }
     blurGameContainer();
-    document.getElementsByTagName("nav")[0].insertAdjacentElement("afterend", getPopup(text));
-    console.log(text);
+    document.getElementsByTagName("nav")[0].insertAdjacentElement("afterend", getPopup(id));
 }
 
 function hidePopup(element) {
