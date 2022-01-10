@@ -1,3 +1,5 @@
+import { getRanking } from "./requests.js";
+
 function blurGameContainer() {
     document.getElementById("game-container").style.filter = "blur(5px)";
 }
@@ -104,51 +106,56 @@ function updateTab(tab) {
 function getPopup(id) {
     switch (id) {
         case "ranking":
-            const ranking = `<table>
-              <tr>
-                <th scope="col">Username</th>
-                <th scope="col">Score</th>
-              </tr>
-              <tr>
-                <td>Sirze</td>
-                <td>20</td>
-              </tr>
-                <td>brod56</td>
-                <td>19</td>
-              </tr>
-              <tr>
-                <td>brod56</td>
-                <td>19</td>
-              </tr>
-              <tr>
-                <td>brod56</td>
-                <td>19</td>
-              </tr>
-              <tr>
-                <td>brod56</td>
-                <td>19</td>
-              </tr>
-              <tr>
-                <td>brod56</td>
-                <td>19</td>
-              </tr>
-              <tr>
-                <td>brod56</td>
-                <td>19</td>
-              </tr>
-              <tr>
-                <td>brod56</td>
-                <td>19</td>
-              </tr>
-              <tr>
-                <td>brod56</td>
-                <td>19</td>
-              </tr>
-              <tr>
-                <td>brod56</td>
-                <td>19</td>
-              </tr>
-          </table>`;
+            const ranking = `<div id="ranking_table">
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th class="t_username">Username</th>
+                                    <th class="t_victories">Victories</th>
+                                    <th class="t_games">Games</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                </tr>
+                              </table>
+                            </div>`;
+            setTimeout(() => {
+                getRanking()
+                    .then(
+                        (response) => {
+                            if (response.ok) return response.json();
+                            const err = document.createElement("h6");
+                            err.style.marginTop = "20px";
+                            err.textContent = "Bad server response";
+                            document.getElementById("ranking_table").appendChild(err);
+                        },
+                        () => {
+                            const err = document.createElement("h6");
+                            err.style.marginTop = "20px";
+                            err.textContent = "Network error";
+                            document.getElementById("ranking_table").appendChild(err);
+                        }
+                    )
+                    .then((json) => {
+                        if (json === undefined) return;
+                        const ranking = json.ranking;
+                        console.log(ranking);
+                        for (let i = 0; i < 10 && i < ranking.length; i++) {
+                            const row = document.createElement("tr");
+                            row.innerHTML =
+                                "<th>" +
+                                ranking[i].nick +
+                                "</th>" +
+                                "<th>" +
+                                ranking[i].victories +
+                                "</th>" +
+                                "<th>" +
+                                ranking[i].games +
+                                "</th>";
+                            document.getElementById("ranking_table").getElementsByTagName("tbody")[0].appendChild(row);
+                        }
+                    });
+            }, 10);
             return createPopup("ranking", "Ranking", ranking);
         case "instructions":
             const instructions = `<h2>Board</h2>
@@ -223,7 +230,7 @@ function getPopup(id) {
     }
 }
 
-function showPopup(id) {
+export function showPopup(id) {
     for (let popup of document.getElementsByClassName("popup-container")) {
         popup.remove();
     }

@@ -2,6 +2,7 @@ import Game from "./scripts/game.js";
 import { RemoteRoom, ComputerRoom } from "./scripts/room.js";
 import { Computer, LocalPlayer, RemotePlayer } from "./scripts/player.js";
 import { joinGame, notifyMove, registerUser } from "./scripts/requests.js";
+import { showPopup } from "./scripts/popups.js";
 
 function clearHoles() {
     for (let row of document.getElementsByClassName("hole-row")) {
@@ -39,23 +40,28 @@ function setupGame(form) {
 }
 
 window.onload = function () {
+    document.getElementById("instructions").addEventListener("click", () => {
+        showPopup("instructions");
+    });
+    document.getElementById("ranking").addEventListener("click", () => {
+        showPopup("ranking");
+    });
     document.getElementById("game_button").addEventListener("click", () => {
-        setTimeout(() => {
-            document.getElementById("play").addEventListener("click", () => {
-                if (window.room != null && window.room.ready) {
-                    if (
-                        !window.confirm(
-                            "Current game progress will be lost. Are you sure you want to leave and create a new game?"
-                        )
-                    ) {
-                        return;
-                    }
-                    window.room.leave();
+        showPopup("game_button");
+        document.getElementById("play").addEventListener("click", () => {
+            if (window.room != null && window.room.ready) {
+                if (
+                    !window.confirm(
+                        "Current game progress will be lost. Are you sure you want to leave and create a new game?"
+                    )
+                ) {
+                    return;
                 }
-                clearHoles();
-                setupGame(document.forms[0]);
-            });
-        }, 1);
+                window.room.leave();
+            }
+            clearHoles();
+            setupGame(document.forms[0]);
+        });
     });
     // test requests
     /*     registerUser("bdmendes", "compacto")

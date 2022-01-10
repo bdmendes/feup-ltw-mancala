@@ -3,7 +3,7 @@ const twServer = "http://twserver.alunos.dcc.fc.up.pt:8008";
 function post_(url, body) {
     return fetch(twServer + "/" + url, {
         method: "POST",
-        body: JSON.stringify(body) ?? "",
+        body: JSON.stringify(body) ?? "{}",
     });
 }
 
