@@ -1,5 +1,6 @@
 import { Computer, LocalPlayer, RemotePlayer } from "./player.js";
-import { joinGame, leaveGame, openEventSource } from "./requests.js";
+import { joinGame, leaveGame, notifyMove, openEventSource } from "./requests.js";
+import Game from "./game.js";
 
 class Room {
     constructor(game, player0, player1) {
@@ -55,7 +56,7 @@ class Room {
                     return;
                 }
                 const delay = 1000 + numberSeeds * 500;
-                const finishedPlaying = this.game.play(1, hole);
+                const finishedPlaying = this.playAtPosition(hole);
                 this.putMessage("Moving!");
                 setTimeout(() => {
                     if (this.game.isGameOver()) {
@@ -107,7 +108,7 @@ class RemoteRoom extends Room {
             this.token,
             this.players[1].username,
             this.players[1].password,
-            this.game.board.length,
+            this.game.board[0].length,
             this.game.board[0][0]
         ).then(async function (response) {
             const statusObject = document.getElementById("login_status");
@@ -125,12 +126,34 @@ class RemoteRoom extends Room {
     setupUpdate() {
         this.eventSource = openEventSource(this.players[1].username, this.gameId);
         this.eventSource.onmessage = function (event) {
-            if (!window.room.ready) {
-                alert("hello");
-                window.room.ready = true;
-                window.room.enterGameView();
+            const json = JSON.parse(event.data);
+            console.log(json);
+            if (json.board == null) {
+                alert("maman");
+                return;
             }
-            console.log(event.data);
+            if (!window.room.ready) {
+                alert("stuff");
+                window.room.ready = true;
+                window.room.game.currentToPlay = json.board.turn === window.room.players[1].username ? 1 : 0;
+                window.room.enterGameView();
+                const playerNames = Object.keys(json.board.sides);
+                console.log(playerNames);
+                const opponentName =
+                    playerNames[0] !== window.room.players[1].username ? playerNames[0] : playerNames[1];
+                window.room.players[0].username = opponentName;
+                document.getElementById("game_info").textContent =
+                    opponentName + " vs " + window.room.players[1].username;
+                return;
+            }
+            if (json.pit == null) {
+                alert("man");
+                return;
+            }
+            if (window.room.game.currentToPlay === 0) {
+                alert("wow!");
+                window.room.game.play(0, window.room.game.board[0].length - 1 - json.pit);
+            }
         };
     }
 
@@ -145,6 +168,11 @@ class RemoteRoom extends Room {
             }
         });
         super.leave();
+    }
+
+    playAtPosition(position) {
+        notifyMove(this.players[1].username, this.players[1].password, this.gameId, position);
+        return this.game.play(1, position);
     }
 }
 
@@ -164,6 +192,10 @@ class ComputerRoom extends Room {
 
     leave() {
         super.leave();
+    }
+
+    playAtPosition(position) {
+        this.game.play(1, position);
     }
 }
 

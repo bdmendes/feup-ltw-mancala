@@ -7,7 +7,6 @@ class Player {
         }
         this.username = username;
     }
-    play() {}
 }
 
 class Computer extends Player {
@@ -56,6 +55,10 @@ class RemotePlayer extends Player {
                 statusMessage.textContent = "Network error";
             }
         );
+    }
+
+    play(room) {
+        room.putMessage("Waiting for the opponent's move...");
     }
 }
 
