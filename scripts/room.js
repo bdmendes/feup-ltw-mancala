@@ -100,6 +100,7 @@ class RemoteRoom extends Room {
         }
         super(game, new RemotePlayer("opponent", "unknown"), player);
         this.token = token;
+        this.discardRequest = false;
         player.login(this);
     }
 
@@ -129,11 +130,9 @@ class RemoteRoom extends Room {
             const json = JSON.parse(event.data);
             console.log(json);
             if (json.board == null) {
-                alert("maman");
                 return;
             }
             if (!window.room.ready) {
-                alert("stuff");
                 window.room.ready = true;
                 window.room.game.currentToPlay = json.board.turn === window.room.players[1].username ? 1 : 0;
                 window.room.enterGameView();
@@ -147,13 +146,22 @@ class RemoteRoom extends Room {
                 return;
             }
             if (json.pit == null) {
-                alert("man");
                 return;
             }
-            if (window.room.game.currentToPlay === 0) {
-                alert("wow!");
-                window.room.game.play(0, window.room.game.board[0].length - 1 - json.pit);
+            if (window.room.game.currentToPlay === 0 && !window.room.discardRequest) {
+                window.room.putMessage("Opponent is moving!");
+                const position = window.room.game.board[0].length - 1 - json.pit;
+                const delay = 1000 + 500 * window.room.game.board[0][position];
+                const finished_playing = window.room.game.play(0, position);
+                setTimeout(() => {
+                    if (finished_playing) {
+                        window.room.notifyMoveEnd();
+                    } else {
+                        window.room.putMessage("Smart opponent, thinking about their next move...");
+                    }
+                }, delay);
             }
+            window.room.discardRequest = false;
         };
     }
 
@@ -172,6 +180,7 @@ class RemoteRoom extends Room {
 
     playAtPosition(position) {
         notifyMove(this.players[1].username, this.players[1].password, this.gameId, position);
+        this.discardRequest = true;
         return this.game.play(1, position);
     }
 }
@@ -195,7 +204,7 @@ class ComputerRoom extends Room {
     }
 
     playAtPosition(position) {
-        this.game.play(1, position);
+        return this.game.play(1, position);
     }
 }
 

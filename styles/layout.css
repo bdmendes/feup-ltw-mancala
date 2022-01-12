@@ -49,3 +49,9 @@ html {
     to {
     }
 }
+
+@media only screen and (max-height: 600px) {
+    #game_info {
+        display: none;
+    }
+}
