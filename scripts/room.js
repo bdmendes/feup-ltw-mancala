@@ -1,4 +1,4 @@
-import { Computer, LocalPlayer, Player, RemotePlayer } from "./player.js";
+import { Computer, LocalPlayer, RemotePlayer } from "./player.js";
 import { joinGame, leaveGame, openEventSource } from "./requests.js";
 
 class Room {
@@ -58,12 +58,12 @@ class Room {
                 const finishedPlaying = this.game.play(1, hole);
                 this.putMessage("Moving!");
                 setTimeout(() => {
+                    if (this.game.isGameOver()) {
+                        this.putGameOverMessage();
+                        this.game.endGame();
+                        return;
+                    }
                     if (finishedPlaying) {
-                        if (this.game.isGameOver()) {
-                            this.putGameOverMessage();
-                            this.game.endGame();
-                            return;
-                        }
                         this.players[0].play(this);
                     } else {
                         this.putMessage("You have put the last seed in your container. Play again!");

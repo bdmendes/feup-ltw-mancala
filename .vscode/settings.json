@@ -1,4 +1,8 @@
 {
     "prettier.tabWidth": 4,
-    "prettier.printWidth": 120
+    "prettier.printWidth": 120,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }

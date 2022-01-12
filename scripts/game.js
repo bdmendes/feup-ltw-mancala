@@ -149,6 +149,11 @@ class Game {
     }
 
     modifyMultipleSeedsView_(addParams, removeParams) {
+        if (addParams.length === 1 && removeParams.length >= 1) {
+            this.modifyMultipleSeedsView_([], removeParams);
+            this.modifyMultipleSeedsView_(addParams, []);
+            return;
+        }
         if (addParams.length === 0) {
             if (removeParams.length == 0) return;
             const [head, ...tail] = removeParams;
