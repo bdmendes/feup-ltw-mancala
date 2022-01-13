@@ -1,15 +1,7 @@
 import Game from "./scripts/game.js";
-import Room from "./scripts/room.js";
-import { Player, Computer, RemotePlayer } from "./scripts/player.js";
-
-document.getElementById("startGame").addEventListener("click", () => {
-    setTimeout(() => {
-        document.getElementById("play").addEventListener("click", () => {
-            clearHoles();
-            setupGame(document.forms[0]);
-        });
-    }, 1);
-});
+import { RemoteRoom, ComputerRoom } from "./scripts/room.js";
+import { Computer, LocalPlayer, RemotePlayer } from "./scripts/player.js";
+import { joinGame, notifyMove, registerUser } from "./scripts/requests.js";
 
 function clearHoles() {
     for (let row of document.getElementsByClassName("hole-row")) {
@@ -20,63 +12,61 @@ function clearHoles() {
 }
 
 function setupGame(form) {
+    /* Parse form */
     const mode = form.mode.value;
-    let difficulty;
-    let is_turn;
-    let code;
-    let username;
-    let password;
-    let cavities;
-    let seeds;
-    if (mode == "sp") {
+    let difficulty, turn, code, username, password, cavities, seeds;
+    if (mode === "single_player") {
         difficulty = parseInt(form.difficulty.value);
-        is_turn = parseInt(form.user_turn.value);
+        turn = parseInt(form.user_turn.value);
+        if (turn === -1) {
+            turn = Math.floor(Math.random() * 2);
+        }
     } else {
-        if (mode == "jn") {
-            if (form.code != undefined) {
-                code = form.code.value;
-            }
-        }
-        if (mode == "cr") {
-            if (form.is_turn != undefined) {
-                is_turn = parseInt(form.user_turn.value);
-            }
-        }
+        code = form.code.value;
         username = form.username.value;
         password = form.password.value;
     }
+    cavities = parseInt(form.cavities.value);
+    seeds = parseInt(form.seeds.value);
 
-    if (code == undefined) {
-        cavities = parseInt(form.cavities.value);
-        seeds = parseInt(form.seeds.value);
-    }
-
-    if (is_turn == 3) {
-        is_turn = Math.floor(Math.random() * 2);
-    }
-
-    if ((mode == "cr" || mode == "jn") && (username == undefined || password == undefined)) {
-        return;
-    }
-
-    let user0;
-    let user1;
-    if (mode == "sp") {
-        user0 = new Computer(difficulty);
-        user1 = new Player("", "");
-        window.room = new Room(new Game(is_turn, cavities, seeds), user0, user1);
-    }
-
-    if (mode == "cr" || mode == "jn") {
-        user1 = new Player(username, password);
-        window.room = new RemoteRoom(user1);
-                
-    }
-
-    window.room.game.loadView();
-    window.room.setEventListeners();
-    window.hidePopup(document.getElementById("settings"));
-    if (!is_turn) {
-        window.room.players[0].play(window.room.game);
+    /* Create entities */
+    if (mode == "single_player") {
+        window.room = new ComputerRoom(new Game(turn, cavities, seeds), new LocalPlayer("guest", ""), difficulty);
+        window.room.enterGameView();
+    } else {
+        window.room = new RemoteRoom(new Game(0, cavities, seeds), new RemotePlayer(username, password), code);
     }
 }
+
+window.onload = function () {
+    document.getElementById("game_button").addEventListener("click", () => {
+        showPopup("game_button");
+        document.getElementById("play").addEventListener("click", () => {
+            if (window.room != null && window.room.ready) {
+                if (
+                    !window.confirm(
+                        "Current game progress will be lost. Are you sure you want to leave and create a new game?"
+                    )
+                ) {
+                    return;
+                }
+                window.room.leave();
+            }
+            clearHoles();
+            setupGame(document.forms[0]);
+        });
+    });
+    // test requests
+    /*     registerUser("bdmendes", "compacto")
+        .then((response) => response.json())
+        .then((json) => console.log(json))
+        .then(() => joinGame("300", "bdmendes", "compacto", 4, 4))
+        .then((response) => response.json())
+        .then((json) => notifyMove("bdmendes", "compacto", json.game, 1))
+        .then((response) => response.json())
+        .then((json) => console.log(json)); */
+};
+/* window.onbeforeunload = function () {
+    return "Do you really want to exit the app? Current game progress will be lost.";
+};
+ */

@@ -1,53 +1,65 @@
+import { registerUser } from "./requests.js";
+
 class Player {
-    constructor(username, password) {
+    constructor(username) {
+        if (this.constructor === Player) {
+            throw new Error("Instantitate a concrete player");
+        }
         this.username = username;
-        this.password = password;
     }
 }
 
 class Computer extends Player {
-    constructor(difficulty) {
-        super("computer", "computer");
-        switch (difficulty) {
-            case 2:
-                this.difficulty = difficulty;
-                break;
-            case 3:
-                this.difficulty = difficulty;
-                break;
-            case 1:
-            default:
-                this.difficulty = 1;
-                break;
-        };
+    constructor(depth) {
+        super("computer");
+        this.depth = depth;
     }
 
-    async play(game) {
-        while(!game.play(0, this.getPlay(game))){
-            if(game.isGameOver()){return;}
-            await this.sleep(1000);
+    play(room) {
+        if (room.game.isGameOver()) return;
+        room.putMessage("Computer is moving...");
+        const bestMove = room.game.calculateBestPlay(this.depth)[0];
+        const delay = 1000 + room.game.board[0][bestMove] * 500;
+        const finishedPlaying = room.game.play(0, bestMove);
+        if (!finishedPlaying) {
+            setTimeout(() => {
+                this.play(room);
+            }, delay);
+        } else {
+            setTimeout(() => room.notifyMoveEnd(), delay);
         }
-    }
-
-    async sleep(interval){return new Promise((resolve) => setTimeout(resolve, interval));}
-
-    getPlay(game){
-        if(this.difficulty == 3){
-            return game.calculateBestPlay(2)[0];
-        }
-        if(this.difficulty == 2){
-            return game.calculateBestPlay(1)[0];
-        }
-        
-        return Math.floor(Math.random() * game.board[0].length);
     }
 }
 
+class LocalPlayer extends Player {}
 
-class RemotePlayer extends Player{
-    constructor(username){
+class RemotePlayer extends Player {
+    constructor(username, password) {
+        super(username);
+        this.password = password;
+    }
 
+    login(room) {
+        const statusMessage = document.getElementById("login_status");
+        statusMessage.textContent = "Logging in...";
+        registerUser(this.username, this.password).then(
+            (response) => {
+                statusMessage.textContent = response.ok
+                    ? "Login successful, joining a game..."
+                    : "User registered with a different password";
+                if (response.ok) {
+                    room.enterGame();
+                }
+            },
+            () => {
+                statusMessage.textContent = "Network error";
+            }
+        );
+    }
+
+    play(room) {
+        room.putMessage("Waiting for the opponent's move...");
     }
 }
 
-export {Player, Computer, RemotePlayer}; 
+export { Player, Computer, LocalPlayer, RemotePlayer };

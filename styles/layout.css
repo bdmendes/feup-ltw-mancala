@@ -6,13 +6,36 @@ body,
 html {
     height: 100%;
     margin: 0;
-    overflow: hidden
+    overflow: hidden;
 }
 
 .center {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+}
+
+#message {
+    overflow: hidden;
+    text-align: center;
+    border: 3px solid darkslategrey;
+    border-radius: 5px;
+    margin-top: 30px;
+    padding: 10px;
+    font-size: 25px;
+    background-color: var(--dark-brown);
+    font-family: var(--popup-font);
+    color: lightblue;
+}
+
+#game_info {
+    background-color: var(--dark-brown);
+    border: 3px solid darkslategrey;
+    border-radius: 5px;
+    font-family: var(--popup-font);
+    color: lightblue;
+    font-size: 30px;
+    padding: 10px;
 }
 
 .fall {
@@ -24,5 +47,11 @@ html {
         transform: scale(2);
     }
     to {
+    }
+}
+
+@media only screen and (max-height: 600px) {
+    #game_info {
+        display: none;
     }
 }

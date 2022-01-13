@@ -20,13 +20,21 @@
     text-align: right;
     padding: 20px 0;
     margin: 0 auto;
-    width: 65%;
+    width: 70%;
+    max-width: 700px;
 }
 
 #close {
     position: relative;
     right: 25px;
     padding: 0px;
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit;
+    font-size: 1em;
+    padding: 5px;
+    border: 2px solid;
+    border-radius: 5px;
 }
 
 .popup * {
@@ -34,7 +42,7 @@
 }
 
 .popup-content {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 .popup-container {
@@ -42,4 +50,16 @@
     margin-top: 120px;
     width: 100%;
     z-index: 1;
+}
+
+@media only screen and (max-width: 700px) {
+    .popup {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 800px) {
+    .popup-container {
+        margin-top: 50px;
+    }
 }
