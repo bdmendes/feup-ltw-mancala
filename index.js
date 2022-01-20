@@ -1,8 +1,28 @@
 const http = require("http");
 const url = require("url");
+const fs = require("fs");
+const path = require("path");
 const { serveRanking } = require("./router/ranking");
 
-function parseJson(request, response, callback) {
+const mimeTypes = {
+    ".html": "text/html",
+    ".js": "text/javascript",
+    ".css": "text/css",
+    ".json": "application/json",
+    ".png": "image/png",
+    ".jpg": "image/jpg",
+    ".gif": "image/gif",
+    ".svg": "image/svg+xml",
+    ".wav": "audio/wav",
+    ".mp4": "video/mp4",
+    ".woff": "application/font-woff",
+    ".ttf": "application/font-ttf",
+    ".eot": "application/vnd.ms-fontobject",
+    ".otf": "application/font-otf",
+    ".wasm": "application/wasm",
+};
+
+function processJson(request, response, callback) {
     let body = "";
     request.setEncoding("utf8");
     request.on("data", (chunk) => {
@@ -10,11 +30,36 @@ function parseJson(request, response, callback) {
     });
     request.on("end", () => {
         try {
-            const data = JSON.parse(body);
-            callback(data, response);
-        } catch (er) {
-            console.log("Invalid received json at route " + request.url);
+            const requestData = JSON.parse(body);
+            const responseData = callback(requestData);
+            response.writeHead(200, { "Content-Type": "application/json" });
+            response.end(JSON.stringify(responseData), "utf-8");
+        } catch (_) {
+            response.writeHead(400);
+            response.end(
+                JSON.stringify({
+                    error: "Invalid request data",
+                })
+            );
         }
+    });
+}
+
+function serveFile(pathName, response) {
+    console.log("serving " + pathName);
+    if (pathName === "/") {
+        pathName += "index.html";
+    }
+    const extName = String(path.extname(pathName)).toLowerCase();
+    const contentType = mimeTypes[extName] || "application/octet-stream";
+    fs.readFile("./public" + pathName, (error, content) => {
+        if (error) {
+            response.writeHead(404);
+            response.end(JSON.stringify(error));
+            return;
+        }
+        response.writeHead(200, { "Content-Type": contentType });
+        response.end(content, "utf-8");
     });
 }
 
@@ -26,18 +71,33 @@ http.createServer((request, response) => {
                 case "/register":
                     break;
                 case "/ranking":
-                    parseJson(request, response, serveRanking);
+                    processJson(request, response, serveRanking);
                     break;
                 default:
-                    response.write("Unknown route");
-                    response.end();
+                    response.writeHead(404, { "Content-Type": "application/json" });
+                    response.end(
+                        JSON.stringify({
+                            error: "Unkown route",
+                        })
+                    );
             }
             break;
         case "GET":
+            switch (parsedUrl.pathname) {
+                case "/update":
+                    break;
+                default:
+                    serveFile(parsedUrl.pathname, response);
+                    break;
+            }
             break;
         default:
-            response.write("Unsupported HTTP method\n");
-            response.end();
+            response.writeHead(404, { "Content-Type": "application/json" });
+            response.end(
+                JSON.stringify({
+                    error: "Unsupported method",
+                })
+            );
             break;
     }
 }).listen(9109);
