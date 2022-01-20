@@ -1,5 +1,7 @@
 export function getInstructionsContent() {
-    const instructions = `<h2>Board</h2>
+    const instructions = `
+        <div id="instructions">    
+        <h2>Board</h2>
           <p>
             There are 2 rows of cavities and 2 containers. Each player controls
             the cavities in its side and the container to its right.
@@ -23,6 +25,7 @@ export function getInstructionsContent() {
             The game ends when a player can't sew due to lack of seeds. The
             other player places the seeds in its cavities in its container. Wins
             the player with more seeds in.
-          </p>`;
+          </p>
+          </id>`;
     return instructions;
 }

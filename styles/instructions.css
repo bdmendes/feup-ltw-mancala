@@ -1,8 +1,14 @@
-#instructions .popup-content h2 {
-    padding-top: 10px;
+#instructions {
+    text-align: center;
+    margin: 0 auto;
+    width: 80%;
 }
 
-/* Layout */
-#instructions .popup-content {
-    padding: 0 10px 0 10px;
+.popup-content h2 {
+    padding-top: 10px;
+    margin: 0;
+}
+
+.popup-content p {
+    margin: 10px 0;
 }

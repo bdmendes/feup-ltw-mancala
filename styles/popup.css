@@ -1,33 +1,37 @@
 @import url(palette.css);
 
-/* Style */
 .popup {
     background-color: var(--champagne);
     font-family: var(--popup-font);
     font-size: 1.5em;
+    padding: 10px 0;
+    margin: 0 auto;
+    width: 70%;
+    max-width: 700px;
+    position: relative;
 }
 
-.popup * {
-    text-align: center;
+.popup-title {
+    margin: 20px 0;
+}
+
+.popup-container h1 {
+    margin: 20px 0 0 0;
 }
 
 .popup-content {
     font-size: 1em;
+    padding: 10px;
 }
 
-/* Layout */
-.popup {
-    text-align: right;
-    padding: 20px 0;
-    margin: 0 auto;
-    width: 70%;
-    max-width: 700px;
+.popup-title {
+    text-align: center;
 }
 
 #close {
-    position: relative;
-    right: 25px;
-    padding: 0px;
+    position: absolute;
+    left: 90%;
+    width: 50px;
     cursor: pointer;
     text-align: center;
     font-family: inherit;
@@ -35,14 +39,7 @@
     padding: 5px;
     border: 2px solid;
     border-radius: 5px;
-}
-
-.popup * {
-    margin: 0 auto;
-}
-
-.popup-content {
-    margin-top: 5px;
+    margin-right: 10px;
 }
 
 .popup-container {

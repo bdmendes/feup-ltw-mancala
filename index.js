@@ -1,7 +1,6 @@
 import Game from "./scripts/game.js";
 import { RemoteRoom, ComputerRoom } from "./scripts/room.js";
-import { Computer, LocalPlayer, RemotePlayer } from "./scripts/player.js";
-import { joinGame, notifyMove, registerUser } from "./scripts/requests.js";
+import { LocalPlayer, RemotePlayer } from "./scripts/player.js";
 
 function clearHoles() {
     for (let row of document.getElementsByClassName("hole-row")) {
@@ -40,7 +39,7 @@ function setupGame(form) {
 
 window.onload = function () {
     document.getElementById("game_button").addEventListener("click", () => {
-        showPopup("game_button");
+        showPopup("Start Game");
         document.getElementById("play").addEventListener("click", () => {
             if (window.room != null && window.room.ready) {
                 if (
@@ -56,17 +55,7 @@ window.onload = function () {
             setupGame(document.forms[0]);
         });
     });
-    // test requests
-    /*     registerUser("bdmendes", "compacto")
-        .then((response) => response.json())
-        .then((json) => console.log(json))
-        .then(() => joinGame("300", "bdmendes", "compacto", 4, 4))
-        .then((response) => response.json())
-        .then((json) => notifyMove("bdmendes", "compacto", json.game, 1))
-        .then((response) => response.json())
-        .then((json) => console.log(json)); */
 };
-/* window.onbeforeunload = function () {
+window.onbeforeunload = function () {
     return "Do you really want to exit the app? Current game progress will be lost.";
 };
- */

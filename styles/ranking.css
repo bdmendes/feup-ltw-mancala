@@ -1,8 +1,7 @@
-/* Layout */
-#ranking .popup-content table {
-    width: 100%;
+#ranking_table table {
+    margin: 0 auto;
 }
 
-#ranking th {
-    width: 30%;
+#ranking_table th {
+    width: 150px;
 }

@@ -43,12 +43,11 @@ function updateTab(tab) {
             login = document.createElement("div");
             login.id = "login";
             login.innerHTML = `
-              <label for="username">Username</label>
-              <input type="text" name="username" id="username" placeholder="Enter your username"/>
-              <br>
-              <label for="password">Password</label>
-              <input type="password" name="password" id="password" placeholder="Enter your password"/>
-              <h6 id="login_status" style="margin-top: 20px; text-align:center;"></h6>`;
+              <div class="option"><label for="username">Username</label>
+              <div><input type="text" name="username" id="username" placeholder="Enter your username"/></div></div>
+              <div class="option"><label for="password">Password</label>
+              <div><input type="password" name="password" id="password" placeholder="Enter your password"/></div></div>
+              <h6 id="login_status" style=" text-align:center;"></h6>`;
             document.getElementById("options").insertAdjacentElement("afterend", login);
             if (difficulty.style.display !== "none") {
                 difficulty.style.display = "none";
@@ -63,41 +62,39 @@ export function getSettingsContent() {
     const tabs =
         `<form>
             <div class="tab-selector">
-              <div>
                 <input type="radio" name="mode" id="single_player" value="single_player" checked /><label onclick="updateTab(this.getAttribute('for'));" for="single_player">Singleplayer</label>
                 <input type="radio" name="mode" id="multi_player" value="multi_player" /><label
                 onclick="updateTab(this.getAttribute('for'));" for="multi_player">Multiplayer</label>
               </div>
-              </div>
-              <div class="tab">
+              <div class="tab-content">
                 <div id="options">
-                <label for="cavities">Cavities</label>
+                <div class="option"><label for="cavities">Cavities</label>
                 <div>
                   <input type="range" name="cavities" id="cavities" value="4" min="4" max="8" onchange="this.nextElementSibling.value = this.value;"/>
                   <output>4</output>
-                </div>
+                </div></div>
         
-                <label for="seeds">Seeds per cavity</label>
+                <div class="option"><label for="seeds">Seeds per cavity</label>
                 <div>
                   <input type="range" name="seeds" id="seeds" value="4" min="4" max="6" onchange="this.nextElementSibling.value = this.value;"/>
                 <output>4</output>
-                </div>
+                </div></div>
                 
-                <div id="difficulty_option" style="display: block;">
-                    <label for="difficulty">Difficulty</label>
+                <div class="option" id="difficulty_option">
+                    <div<label for="difficulty">Difficulty</label>
                     <div>
                     <input type="range" name="difficulty" id="difficulty" value="1" min="1" max="3" onchange="updateDifficulty(this);"/>
                     <output>Easy</output>
                     </div>
                 </div>
         
-                <div id="who_starts">` +
+                <div class="option" id="who_starts">` +
         startOptionHTML("single_player") +
         `
                 </div>
                 </div>
-                <button id="play" type="button">Play!</button>
               </div>
+              <button id="play" type="button">Play!</button>
               </form>`;
     return tabs;
 }

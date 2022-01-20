@@ -1,5 +1,5 @@
 import { getInstructionsContent } from "./popups/instructions.js";
-import { getRankingContent } from "./popups/ranking.js";
+import { getRankingContent, injectServerRankingResults } from "./popups/ranking.js";
 import { getSettingsContent } from "./popups/settings.js";
 
 function blurGameContainer() {
@@ -10,63 +10,36 @@ function unBlurGameContainer() {
     document.getElementById("game-container").style.removeProperty("filter");
 }
 
-function createPopup(id, title, content) {
-    const popupContainer = document.createElement("div");
-    popupContainer.setAttribute("class", "popup-container");
-
-    const popup = document.createElement("div");
-    popup.setAttribute("class", "popup");
-    const close = document.createElement("span");
-    close.textContent = "Close";
-    close.id = "close";
-    close.style.marginBottom = "5px";
-    close.onclick = function () {
-        hidePopup(popupContainer);
-    };
-    popup.appendChild(close);
-
-    const popupTitle = document.createElement("div");
-    popupTitle.setAttribute("class", "popup-title");
-    let t = document.createElement("h1");
-
-    const c = document.createElement("div");
-    c.setAttribute("class", "popup-content");
-
-    popupContainer.id = id;
-    t.textContent = title;
-    c.innerHTML = content;
-
-    popupTitle.appendChild(t);
-    popup.appendChild(popupTitle);
-    popup.appendChild(c);
-    popupContainer.appendChild(popup);
-
-    return popupContainer;
-}
-
-function getPopup(id) {
-    switch (id) {
-        case "ranking":
-            return createPopup("ranking", "Ranking", getRankingContent());
-        case "instructions":
-            return createPopup("instructions", "Instructions", getInstructionsContent());
-        case "game_button":
-            return createPopup("settings", "Start Game", getSettingsContent());
+function getPopupContent(title) {
+    switch (title) {
+        case "Ranking":
+            return getRankingContent();
+        case "Instructions":
+            return getInstructionsContent();
+        case "Start Game":
+            return getSettingsContent();
         default:
-            return createPopup("test");
+            return "Undefined popup";
     }
 }
 
-function showPopup(id) {
-    for (let popup of document.getElementsByClassName("popup-container")) {
-        popup.remove();
-    }
+function showPopup(title) {
+    const content = getPopupContent(title);
+    const element = document.getElementById("main-popup-content");
+    element.innerHTML = content;
+    const popup = document.getElementById("main-popup");
+    document.getElementById("main-popup-title").innerHTML = title;
+    popup.style.display = "block";
     blurGameContainer();
-    document.getElementsByTagName("nav")[0].insertAdjacentElement("afterend", getPopup(id));
+
+    if (title === "Ranking") {
+        injectServerRankingResults();
+    }
 }
 
-function hidePopup(element) {
-    element.remove();
+function hidePopup() {
+    const popup = document.getElementById("main-popup");
+    popup.style.display = "none";
     unBlurGameContainer();
 }
 
