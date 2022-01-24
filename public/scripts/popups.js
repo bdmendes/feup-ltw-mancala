@@ -1,5 +1,5 @@
 import { getInstructionsContent } from "./popups/instructions.js";
-import { getRankingContent, injectServerRankingResults } from "./popups/ranking.js";
+import { getRankingContent, injectLocalRankingResults, injectServerRankingResults } from "./popups/ranking.js";
 import { getSettingsContent } from "./popups/settings.js";
 
 function blurGameContainer() {
@@ -34,6 +34,7 @@ function showPopup(title) {
 
     if (title === "Ranking") {
         injectServerRankingResults();
+        injectLocalRankingResults();
     }
 }
 

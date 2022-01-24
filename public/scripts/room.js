@@ -127,9 +127,19 @@ class RemoteRoom extends Room {
     setupUpdate() {
         this.eventSource = openEventSource(this.players[1].username, this.gameId);
         this.eventSource.onmessage = function (event) {
+            if (window.room.game.isGameOver()) {
+                this.eventSource.close();
+                return;
+            }
             const json = JSON.parse(event.data);
             console.log(json);
             if (json.board == null) {
+                return;
+            }
+            if (json.winner != null) {
+                window.room.game.endGame_();
+                this.putMessage("The server determined the end of the game.");
+                this.eventSource.close();
                 return;
             }
             if (!window.room.ready) {

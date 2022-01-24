@@ -55,3 +55,5 @@ export function injectServerRankingResults() {
             }
         });
 }
+
+export function injectLocalRankingResults() {}
