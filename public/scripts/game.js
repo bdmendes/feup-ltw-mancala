@@ -3,6 +3,7 @@ class Game {
         this.board = [new Array(boardSize).fill(startSeeds), new Array(boardSize).fill(startSeeds)];
         this.storage = [0, 0];
         this.currentToPlay = firstToPlay;
+        this.animate = new Array(this.board[0].length);
     }
 
     static assembleGame(board, storage, currentToPlay) {
@@ -180,7 +181,8 @@ class Game {
         seed.style.left = leftPad + "px";
         const rotation = Math.round(Math.random() * 60) - 30;
         seed.style.transform = " rotate(" + rotation + "deg)";
-        this.getHoleNode_(player, position).appendChild(seed);
+        const hole = this.getHoleNode_(player, position);
+        hole.appendChild(seed);
 
         this.addSeedsView_(numberSeeds - 1, player, position, fall);
     }
@@ -192,7 +194,12 @@ class Game {
     }
 
     removeSeedsView_(player, position) {
-        this.getHoleNode_(player, position).innerHTML = "";
+        const hole = this.getHoleNode_(player, position);
+        const children = hole.children;
+        for (let i = children.length; i-- > 0; ) {
+            if (!children[i].classList.contains("seed")) continue;
+            hole.removeChild(children[i]);
+        }
     }
 
     loadView() {
@@ -206,9 +213,41 @@ class Game {
             for (let row of [0, 1]) {
                 const hole = document.createElement("div");
                 hole.classList.add("hole");
-                rows[row].appendChild(hole);
                 let numberSeeds = this.board[row][i];
                 this.board[row][i] = 0;
+                if (row === 1) {
+                    const canvas = document.createElement("canvas");
+                    canvas.classList.add("hole_canvas");
+                    hole.insertAdjacentElement("afterbegin", canvas);
+                    hole.addEventListener("mouseover", () => {
+                        if (this.currentToPlay === 0 || this.board[1][i] === 0) return;
+                        const h = canvas.height / 20;
+                        const draw = (start) => {
+                            if (start === 0) {
+                                this.animate[i] = true;
+                            }
+                            if (!this.animate[i] || start >= canvas.height) {
+                                return;
+                            }
+                            const context = canvas.getContext("2d");
+                            context.fillStyle = "blue";
+                            context.fillRect(0, start, canvas.width, h + 1);
+                            setTimeout(() => draw(start + h), 5);
+                        };
+                        draw(0);
+                    });
+                    hole.addEventListener("mouseleave", () => {
+                        this.animate[i] = false;
+                        const context = canvas.getContext("2d");
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                    });
+                    hole.addEventListener("click", () => {
+                        this.animate[i] = false;
+                        const context = canvas.getContext("2d");
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                    });
+                }
+                rows[row].appendChild(hole);
                 this.addSeedsBoard_(numberSeeds, row, i);
                 this.addSeedsView_(numberSeeds, row, i, false);
             }
