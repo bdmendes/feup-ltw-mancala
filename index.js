@@ -1,7 +1,7 @@
 const http = require("http");
 const url = require("url");
 const fs = require("fs");
-const crypto = require('crypto');
+const crypto = require("crypto");
 const path = require("path");
 const { serveRanking } = require("./router/ranking");
 const { register } = require("./router/register");
@@ -64,7 +64,7 @@ function serveFile(pathName, response) {
     });
 }
 
-let players = JSON.parse(fs.readFileSync('./local/players.json'));
+let players = JSON.parse(fs.readFileSync("./local/players.json"));
 
 http.createServer((request, response) => {
     const parsedUrl = url.parse(request.url, true, false);
@@ -81,15 +81,13 @@ http.createServer((request, response) => {
                     response.writeHead(404, { "Content-Type": "application/json" });
                     response.end(
                         JSON.stringify({
-                            error: "Unkown route",
+                            error: "Unknown route",
                         })
                     );
             }
             break;
         case "GET":
             switch (parsedUrl.pathname) {
-                case "/update":
-                    break;
                 default:
                     serveFile(parsedUrl.pathname, response);
                     break;
