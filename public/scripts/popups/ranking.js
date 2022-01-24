@@ -56,7 +56,7 @@ export function injectServerRankingResults() {
             const table = document.getElementById("online_ranking_table");
             const tbody = table.getElementsByTagName("tbody")[0];
             const ranking = json.ranking;
-            for (let i = 0; i < 10 && i < ranking.length; i++) {
+            for (let i = 0; i < 5 && i < ranking.length; i++) {
                 const row = document.createElement("tr");
                 row.innerHTML =
                     "<th>" +
