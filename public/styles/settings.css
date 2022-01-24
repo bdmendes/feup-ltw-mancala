@@ -1,10 +1,12 @@
 @import url(palette.css);
 
-/* Style */
-
 .tab-selector label,
 #who_starts label {
     border-color: transparent;
+}
+
+.tab-selector input[type="radio"] {
+    display: none;
 }
 
 .tab-selector input[type="radio"]:checked + label {
@@ -18,17 +20,16 @@
     border-color: black;
 }
 
-.tab {
+.tab-content {
     border-color: black;
 }
 
-/* Layout */
-#settings .popup-content * {
-    text-align: left;
+.tab-content input[type="radio"] {
+    display: none;
 }
 
-#settings input[type="radio"] {
-    display: none;
+.tab-content input[type="range"] {
+    margin-right: 10px;
 }
 
 .tab-selector {
@@ -50,28 +51,18 @@
 .tab-selector label {
     border-width: 2px 2px 0 2px;
     border-radius: 5px 5px 0 0;
-    width: 110px;
 }
 
-.tab {
-    margin: 0 20px;
+.tab-content {
+    margin: 0 10px;
     border-style: solid;
     border-width: 2px;
     padding-bottom: 5px;
-
     display: grid;
-    align-items: space-around;
-    grid-template-columns: repeat(2, 1fr);
-}
-
-#options * {
-    display: block;
-    margin: 0;
+    justify-content: space-between;
 }
 
 #options {
-    grid-column: 1;
-    grid-row: 1;
     margin-top: 10px;
     margin-left: 10px;
 }
@@ -79,46 +70,13 @@
 #login {
     grid-column: 2;
     grid-row: 1;
-
-    display: block;
     margin-right: 25px;
-    text-align: center;
-}
-
-#options input[type="range"] {
-    margin-right: 15px;
-}
-#options div {
-    display: flex;
-    justify-content: left;
-    align-items: flex-start;
-    margin-bottom: 10px;
-    margin-top: 5px;
-}
-
-#who_starts {
-    height: 60px;
-    display: block !important;
-}
-
-#who_starts input[type="text"] {
-    margin-top: 10px;
-}
-
-#who_starts label {
-    margin-top: 5px;
-    width: 85px;
-    padding: 2px;
 }
 
 #play {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    align-self: end;
-    margin-top: 10px;
-
+    display: flex;
+    margin: 15px auto 0 auto;
     cursor: pointer;
-    text-align: center;
     font-family: inherit;
     font-size: 1.5em;
     padding: 5px;
@@ -126,11 +84,18 @@
     border-radius: 5px;
 }
 
-#login input {
-    display: block;
+#login {
     margin-top: 10px;
 }
 
-#login {
-    margin-top: 10px;
+.tab-content .option {
+    margin-bottom: 10px;
+}
+
+.tab-content input {
+    margin-top: 5px;
+}
+
+#who_starts label {
+    margin-top: 5px;
 }

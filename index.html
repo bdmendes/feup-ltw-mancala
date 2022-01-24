@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <title>Mancala</title>
+        <base href="." />
         <link rel="icon" type="image/gif" href="img/favicon.png" />
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,18 +18,30 @@
     </head>
 
     <body>
+        <!-- Nav bar -->
         <nav>
-            <div id="ranking" onclick="showPopup('ranking');">
+            <div id="ranking_button" onclick="showPopup('Ranking');">
                 <div>Ranking</div>
             </div>
             <div id="center">
                 <img id="logo" src="img/big_logo.png" alt="Logo" />
-                <div id="game_button" name="game_button">Play Game</div>
+                <div id="game_button" name="Start Game">Play Game</div>
             </div>
-            <div id="instructions" onclick="showPopup('instructions');">
+            <div id="instructions_button" onclick="showPopup('Instructions');">
                 <div>Instructions</div>
             </div>
         </nav>
+
+        <!-- Popup -->
+        <div id="main-popup" class="popup-container" style="display: none">
+            <div class="popup">
+                <div id="close" onclick="hidePopup()">Close</div>
+                <h1 class="popup-title" id="main-popup-title">Popup title</h1>
+                <div id="main-popup-content" class="popup-content">Popup content</div>
+            </div>
+        </div>
+
+        <!-- Game area -->
         <div id="game-container" class="center" style="flex-direction: column; justify-content: center">
             <div id="game_info">No game set</div>
             <div id="board">

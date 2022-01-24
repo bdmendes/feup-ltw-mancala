@@ -1,6 +1,5 @@
 import { Computer, LocalPlayer, RemotePlayer } from "./player.js";
 import { joinGame, leaveGame, notifyMove, openEventSource } from "./requests.js";
-import Game from "./game.js";
 
 class Room {
     constructor(game, player0, player1) {
@@ -12,8 +11,60 @@ class Room {
         this.messageObject = document.getElementById("message");
         this.left = false;
         this.ready = false;
+        this.updatedRanking = false;
         document.getElementById("board").style.display = "flex";
         document.getElementById("game_button").textContent = "Leave";
+    }
+
+    updateLocalRanking() {
+        if (this.updatedRanking) return;
+        this.updatedRanking = true;
+        const winnerUsername = this.players[this.game.getWinner()].username;
+        const loserUsername = this.players[(this.game.getWinner() + 1) % 2].username;
+        const winnerFreshEntry = {
+            nick: winnerUsername,
+            victories: 1,
+            games: 1,
+        };
+        const loserFreshEntry = {
+            nick: loserUsername,
+            victories: 0,
+            games: 1,
+        };
+        const ranking_ = localStorage.getItem("ranking");
+        if (!ranking_) {
+            const json = {
+                ranking: [winnerFreshEntry, loserFreshEntry],
+            };
+            localStorage.setItem("ranking", JSON.stringify(json));
+            return;
+        }
+        const ranking = JSON.parse(ranking_).ranking;
+        let foundWinner = false;
+        let foundLoser = false;
+        for (let i = 0; i < ranking.length; i++) {
+            const entry = ranking[i];
+            if (entry.nick === winnerUsername && !foundWinner) {
+                entry.games++;
+                entry.victories++;
+                foundWinner = true;
+            }
+            if (entry.nick === loserUsername && !foundLoser) {
+                entry.games++;
+                foundLoser = true;
+            }
+            if (foundWinner && foundLoser) break;
+        }
+        if (!foundWinner) {
+            ranking.push(winnerFreshEntry);
+        }
+        if (!foundLoser) {
+            ranking.push(loserFreshEntry);
+        }
+        const json = {
+            ranking: ranking,
+        };
+        localStorage.setItem("ranking", JSON.stringify(json));
     }
 
     putMessage(message) {
@@ -30,8 +81,9 @@ class Room {
     notifyMoveEnd() {
         if (this.left) return;
         if (this.game.isGameOver()) {
+            this.updateLocalRanking();
             this.putGameOverMessage();
-            this.game.endGame();
+            this.game.endGame_();
             return;
         }
         this.putMessage("Make a move!");
@@ -41,33 +93,34 @@ class Room {
         let rows = document.getElementsByClassName("hole-row");
         for (let hole = 0; hole < this.game.board[0].length; hole++) {
             rows[1].children[hole].addEventListener("click", () => {
-                if (this.left) return;
-                if (this.game.isGameOver()) {
-                    this.putMessage("Trying to play again, ahm? Look around you...");
+                if (window.room.left) return;
+                if (window.room.game.isGameOver()) {
+                    window.room.putMessage("Trying to play again, ahm? Look around you...");
                     return;
                 }
-                if (this.game.currentToPlay === 0) {
-                    this.putMessage("Not your turn! Wait for the opponent to play!");
+                if (window.room.game.currentToPlay === 0) {
+                    window.room.putMessage("Not your turn! Wait for the opponent to play!");
                     return;
                 }
-                const numberSeeds = this.game.board[1][hole];
+                const numberSeeds = window.room.game.board[1][hole];
                 if (numberSeeds === 0) {
-                    this.putMessage("You cannot play from an empty hole!");
+                    window.room.putMessage("You cannot play from an empty hole!");
                     return;
                 }
                 const delay = 1000 + numberSeeds * 500;
-                const finishedPlaying = this.playAtPosition(hole);
-                this.putMessage("Moving!");
+                const finishedPlaying = window.room.playAtPosition(hole);
+                window.room.putMessage("Moving!");
                 setTimeout(() => {
-                    if (this.game.isGameOver()) {
-                        this.putGameOverMessage();
-                        this.game.endGame();
+                    if (window.room.game.isGameOver()) {
+                        window.room.updateLocalRanking();
+                        window.room.putGameOverMessage();
+                        window.room.game.endGame_();
                         return;
                     }
                     if (finishedPlaying) {
-                        this.players[0].play(this);
+                        window.room.players[0].play(window.room);
                     } else {
-                        this.putMessage("You have put the last seed in your container. Play again!");
+                        window.room.putMessage("You have put the last seed in your container. Play again!");
                     }
                 }, delay);
             });
@@ -75,7 +128,7 @@ class Room {
         if (this.game.currentToPlay === 0) {
             this.putMessage("The opponent is starting!");
             setTimeout(() => {
-                this.players[0].play(this);
+                window.room.players[0].play(this);
             }, 1000);
         } else {
             this.putMessage("Make the first move. Click one of your cavities!");
@@ -127,9 +180,19 @@ class RemoteRoom extends Room {
     setupUpdate() {
         this.eventSource = openEventSource(this.players[1].username, this.gameId);
         this.eventSource.onmessage = function (event) {
+            if (window.room.game.isGameOver()) {
+                window.room.eventSource.close();
+                return;
+            }
             const json = JSON.parse(event.data);
             console.log(json);
             if (json.board == null) {
+                return;
+            }
+            if (json.winner != null) {
+                window.room.game.endGame_();
+                window.room.putMessage("The server determined the end of the game.");
+                window.room.eventSource.close();
                 return;
             }
             if (!window.room.ready) {
