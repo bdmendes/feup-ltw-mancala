@@ -1,7 +1,15 @@
-#ranking_table table {
+#online_ranking_table table {
     margin: 0 auto;
 }
 
-#ranking_table th {
+#local_ranking_table table {
+    margin: 0 auto;
+}
+
+#online_ranking_table th {
+    width: 150px;
+}
+
+#local_ranking_table th {
     width: 150px;
 }

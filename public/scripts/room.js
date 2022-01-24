@@ -1,6 +1,5 @@
 import { Computer, LocalPlayer, RemotePlayer } from "./player.js";
 import { joinGame, leaveGame, notifyMove, openEventSource } from "./requests.js";
-import Game from "./game.js";
 
 class Room {
     constructor(game, player0, player1) {
@@ -14,6 +13,55 @@ class Room {
         this.ready = false;
         document.getElementById("board").style.display = "flex";
         document.getElementById("game_button").textContent = "Leave";
+    }
+
+    updateLocalRanking() {
+        const winnerUsername = this.players[this.game.getWinner()].username;
+        const loserUsername = this.players[(this.game.getWinner() + 1) % 2].username;
+        const winnerFreshEntry = {
+            nick: winnerUsername,
+            victories: 1,
+            games: 1,
+        };
+        const loserFreshEntry = {
+            nick: loserUsername,
+            victories: 0,
+            games: 1,
+        };
+        const ranking_ = localStorage.getItem("ranking");
+        if (!ranking_) {
+            const json = {
+                ranking: [winnerFreshEntry, loserFreshEntry],
+            };
+            localStorage.setItem("ranking", JSON.stringify(json));
+            return;
+        }
+        const ranking = JSON.parse(ranking_).ranking;
+        let foundWinner = false;
+        let foundLoser = false;
+        for (let i = 0; i < ranking.length; i++) {
+            const entry = ranking[i];
+            if (entry.nick === winnerUsername && !foundWinner) {
+                entry.games++;
+                entry.victories++;
+                foundWinner = true;
+            }
+            if (entry.nick === loserUsername && !foundLoser) {
+                entry.games++;
+                foundLoser = true;
+            }
+            if (foundWinner && foundLoser) break;
+        }
+        if (!foundWinner) {
+            ranking.push(winnerFreshEntry);
+        }
+        if (!foundLoser) {
+            ranking.push(loserFreshEntry);
+        }
+        const json = {
+            ranking: ranking,
+        };
+        localStorage.setItem("ranking", JSON.stringify(json));
     }
 
     putMessage(message) {
@@ -30,6 +78,7 @@ class Room {
     notifyMoveEnd() {
         if (this.left) return;
         if (this.game.isGameOver()) {
+            this.updateLocalRanking();
             this.putGameOverMessage();
             this.game.endGame_();
             return;
@@ -60,6 +109,7 @@ class Room {
                 window.room.putMessage("Moving!");
                 setTimeout(() => {
                     if (window.room.game.isGameOver()) {
+                        window.room.updateLocalRanking();
                         window.room.putGameOverMessage();
                         window.room.game.endGame_();
                         return;
