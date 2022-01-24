@@ -31,7 +31,7 @@ class Room {
         if (this.left) return;
         if (this.game.isGameOver()) {
             this.putGameOverMessage();
-            this.game.endGame();
+            this.game.endGame_();
             return;
         }
         this.putMessage("Make a move!");
@@ -61,7 +61,7 @@ class Room {
                 setTimeout(() => {
                     if (window.room.game.isGameOver()) {
                         window.room.putGameOverMessage();
-                        window.room.game.endGame();
+                        window.room.game.endGame_();
                         return;
                     }
                     if (finishedPlaying) {
