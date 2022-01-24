@@ -11,11 +11,14 @@ class Room {
         this.messageObject = document.getElementById("message");
         this.left = false;
         this.ready = false;
+        this.updatedRanking = false;
         document.getElementById("board").style.display = "flex";
         document.getElementById("game_button").textContent = "Leave";
     }
 
     updateLocalRanking() {
+        if (this.updatedRanking) return;
+        this.updatedRanking = true;
         const winnerUsername = this.players[this.game.getWinner()].username;
         const loserUsername = this.players[(this.game.getWinner() + 1) % 2].username;
         const winnerFreshEntry = {
