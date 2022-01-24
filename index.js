@@ -1,8 +1,10 @@
 const http = require("http");
 const url = require("url");
 const fs = require("fs");
+const crypto = require('crypto');
 const path = require("path");
 const { serveRanking } = require("./router/ranking");
+const { register } = require("./router/register");
 
 const mimeTypes = {
     ".html": "text/html",
@@ -31,8 +33,7 @@ function processJson(request, response, callback) {
     request.on("end", () => {
         try {
             const requestData = JSON.parse(body);
-            const responseData = callback(requestData);
-            response.writeHead(200, { "Content-Type": "application/json" });
+            const responseData = callback(requestData, response, players);
             response.end(JSON.stringify(responseData), "utf-8");
         } catch (_) {
             response.writeHead(400);
@@ -63,12 +64,15 @@ function serveFile(pathName, response) {
     });
 }
 
+let players = JSON.parse(fs.readFileSync('./local/players.json'));
+
 http.createServer((request, response) => {
     const parsedUrl = url.parse(request.url, true, false);
     switch (request.method) {
         case "POST":
             switch (parsedUrl.pathname) {
                 case "/register":
+                    processJson(request, response, register);
                     break;
                 case "/ranking":
                     processJson(request, response, serveRanking);
