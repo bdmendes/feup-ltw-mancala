@@ -41,33 +41,33 @@ class Room {
         let rows = document.getElementsByClassName("hole-row");
         for (let hole = 0; hole < this.game.board[0].length; hole++) {
             rows[1].children[hole].addEventListener("click", () => {
-                if (this.left) return;
-                if (this.game.isGameOver()) {
-                    this.putMessage("Trying to play again, ahm? Look around you...");
+                if (window.room.left) return;
+                if (window.room.game.isGameOver()) {
+                    window.room.putMessage("Trying to play again, ahm? Look around you...");
                     return;
                 }
-                if (this.game.currentToPlay === 0) {
-                    this.putMessage("Not your turn! Wait for the opponent to play!");
+                if (window.room.game.currentToPlay === 0) {
+                    window.room.putMessage("Not your turn! Wait for the opponent to play!");
                     return;
                 }
-                const numberSeeds = this.game.board[1][hole];
+                const numberSeeds = window.room.game.board[1][hole];
                 if (numberSeeds === 0) {
-                    this.putMessage("You cannot play from an empty hole!");
+                    window.room.putMessage("You cannot play from an empty hole!");
                     return;
                 }
                 const delay = 1000 + numberSeeds * 500;
-                const finishedPlaying = this.playAtPosition(hole);
-                this.putMessage("Moving!");
+                const finishedPlaying = window.room.playAtPosition(hole);
+                window.room.putMessage("Moving!");
                 setTimeout(() => {
-                    if (this.game.isGameOver()) {
-                        this.putGameOverMessage();
-                        this.game.endGame();
+                    if (window.room.game.isGameOver()) {
+                        window.room.putGameOverMessage();
+                        window.room.game.endGame();
                         return;
                     }
                     if (finishedPlaying) {
-                        this.players[0].play(this);
+                        window.room.players[0].play(window.room);
                     } else {
-                        this.putMessage("You have put the last seed in your container. Play again!");
+                        window.room.putMessage("You have put the last seed in your container. Play again!");
                     }
                 }, delay);
             });
@@ -75,7 +75,7 @@ class Room {
         if (this.game.currentToPlay === 0) {
             this.putMessage("The opponent is starting!");
             setTimeout(() => {
-                this.players[0].play(this);
+                window.room.players[0].play(this);
             }, 1000);
         } else {
             this.putMessage("Make the first move. Click one of your cavities!");
@@ -128,7 +128,7 @@ class RemoteRoom extends Room {
         this.eventSource = openEventSource(this.players[1].username, this.gameId);
         this.eventSource.onmessage = function (event) {
             if (window.room.game.isGameOver()) {
-                this.eventSource.close();
+                window.room.eventSource.close();
                 return;
             }
             const json = JSON.parse(event.data);
@@ -138,8 +138,8 @@ class RemoteRoom extends Room {
             }
             if (json.winner != null) {
                 window.room.game.endGame_();
-                this.putMessage("The server determined the end of the game.");
-                this.eventSource.close();
+                window.room.putMessage("The server determined the end of the game.");
+                window.room.eventSource.close();
                 return;
             }
             if (!window.room.ready) {
