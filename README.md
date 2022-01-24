@@ -6,7 +6,7 @@ An online Mancala game platform. Project for Web Languages and Technologies, FEU
 
 ### Part 1
 
-Complete implementation of game logic and frontend, including the Minimax algorithm and Canvas.
+Complete implementation of game logic and frontend, including the Minimax algorithm and the Canvas and WebStorage APIs.
 
 ### Part 2
 
