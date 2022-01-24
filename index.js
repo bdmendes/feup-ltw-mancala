@@ -88,6 +88,17 @@ http.createServer((request, response) => {
             break;
         case "GET":
             switch (parsedUrl.pathname) {
+                case '/':
+                    fs.readFile("index.html", (error, content) => {
+                        if (error) {
+                            response.writeHead(404);
+                            response.end(JSON.stringify(error));
+                            return;
+                        }
+                        response.writeHead(200, { "Content-Type": "text/html" });
+                        response.end(content, "utf-8");
+                    });
+                    break;
                 default:
                     serveFile(parsedUrl.pathname, response);
                     break;
