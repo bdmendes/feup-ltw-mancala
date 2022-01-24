@@ -34,7 +34,6 @@ class Room {
             this.game.endGame();
             return;
         }
-        this.game.animating = false;
         this.putMessage("Make a move!");
     }
 
@@ -59,9 +58,7 @@ class Room {
                 const delay = 1000 + numberSeeds * 500;
                 const finishedPlaying = this.playAtPosition(hole);
                 this.putMessage("Moving!");
-                this.animating = true;
                 setTimeout(() => {
-                    this.game.animating = false;
                     if (this.game.isGameOver()) {
                         this.putGameOverMessage();
                         this.game.endGame();

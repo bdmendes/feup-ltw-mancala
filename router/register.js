@@ -8,7 +8,7 @@ exports.register = (request, response, players) => {
         request["nick"] === "" ||
         request["password"] === ""
     ) {
-        response.writeHead(401, { "Content-Type": "application/json" });
+        response.writeHead(400, { "Content-Type": "application/json" });
         response.end(
             JSON.stringify({
                 error: "Invalid request",
