@@ -14,4 +14,10 @@ Complete implementation of server requests to the TW Server, allowing for online
 
 ### Part 3
 
-Incomplete implementation of own server: routing, static files serving and register/ranking methods. Since this was not completed, the client will request the TW Server.
+Incomplete implementation of own server: routing, static files serving and register/ranking methods. Since this was not completed, the client will request the TW Server for multiplayer online games, whose availability is not guaranteed.
+
+## How to run
+
+Run `index.js` with `node` to launch the server on `localhost:9109`.
+
+Alternatively, give it a quick try via https://bdmendes.github.io/feup-ltw-mancala/.
